@@ -15,6 +15,7 @@ def drawtext(t,x,y):
 SCREEN_SIZE = (700,500)
 DARK_GREY = (50,50,50)
 GREEN = (16,173,42)
+RED = (237,12,12)
 # init
 pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE)
@@ -24,10 +25,12 @@ font = pygame.font.Font(pygame.font.get_default_font(), 24)
 
 # game states = playing // winning // losing
 game_state = 'playing'
+# end goal
+goal = pygame.Rect(350,0, 10, 30)
 
 # player
 player_image = pygame.image.load('Sprites/adventurer-idle-02.png')
-player_x = 300
+player_x = 0
 
 player_y = 0
 player_speed = 0
@@ -37,17 +40,39 @@ player_width = 19
 player_height = 30
 # platforms
 platforms =[
-    #middle
-    pygame.Rect(100,300,400,50),
-    # left
-    pygame.Rect(100,250,50,50),
-    # right
-    pygame.Rect(450,250,50,50)
+    
+    pygame.Rect(0,450,50,50),
+    
+    pygame.Rect(100,450,50,50),
+    
+    pygame.Rect(200,450,50,50),
+    
+    pygame.Rect(350,450,50,50),
+    
+    pygame.Rect(400,400,50,50),
+    
+    pygame.Rect(450,350,50,50),
+    
+    pygame.Rect(500,300,50,50),
+    
+    pygame.Rect(550,250,50,50),
+    
+    pygame.Rect(600,200,50,50),
+    
+    pygame.Rect(450,200,50,50),
+    
+    pygame.Rect(250,300,100,25),
+    
+    pygame.Rect(300,150,100,25),
+    
+    pygame.Rect(300,100,25,50)
+    
+    
 ]
 #Coins
 coin_image = pygame.image.load('Image/coin11.png')
 coin = [
-    pygame.Rect(100,200,22,22),
+    pygame.Rect(600,150,22,22),
     pygame.Rect(200,250,22,22)
     ]
 
@@ -128,9 +153,13 @@ while running:
             if c.colliderect(player_rect):
                 coin.remove(c)
                 score +=1
-                # win if score is 2
-                if score >=2:
-                    game_state='win'
+        #check endgame
+        goal_collision = False
+        if goal_collision == False:
+            player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
+            if goal.colliderect(player_rect):
+                game_state = 'win'
+        
     
     #------
     # Draw
@@ -149,6 +178,10 @@ while running:
         
         # player
         screen.blit(player_image, (player_x,player_y))
+        
+        # End Goal
+        pygame.draw.rect(screen, RED, goal)
+        
         
         drawtext('Score: '+ str(score), 10, 10)
         
