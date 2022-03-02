@@ -25,6 +25,8 @@ font = pygame.font.Font(pygame.font.get_default_font(), 24)
 
 # game states = playing // winning // losing
 game_state = 'playing'
+def getState():
+    return game_state
 # end goal
 goal = pygame.Rect(350,0, 10, 30)
 
@@ -38,6 +40,11 @@ player_acceleration = 0.2
 
 player_width = 19
 player_height = 30
+def getX():
+    return player_x
+def getY():
+    return player_y
+
 # platforms
 platforms =[
     
@@ -66,7 +73,7 @@ platforms =[
     pygame.Rect(300,150,100,25),
     
     pygame.Rect(300,100,25,50)
-    
+
     
 ]
 #Coins
@@ -77,7 +84,8 @@ coin = [
     ]
 
 score = 0
-
+def getScore():
+    return score
 running =True
 while running:
 # game loop
@@ -112,7 +120,6 @@ while running:
     if game_state == 'playing':
         new_player_rect = pygame.Rect(new_player_x, player_y, player_width, player_height)
         x_collision =False
-        
         #..check against every playform
         for p in platforms:
             if p.colliderect(new_player_rect):
