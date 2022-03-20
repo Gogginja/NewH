@@ -5,87 +5,49 @@
 
 from pickle import TRUE
 import pygame
-
-#main.py
-def drawtext(t, x, y):
-    text = font.render(t, TRUE, GREEN, DARK_GREY)
-    text_rectangle = text.get_rect()
-    text_rectangle.topleft = (x, y)
-    screen.blit(text, text_rectangle)
+import platform
+import player
 
 
-# Constant variables - main.py
-SCREEN_SIZE = (700, 500)
-DARK_GREY = (50, 50, 50)
-GREEN = (16, 173, 42)
-RED = (237, 12, 12)
+#==[ Global Variables ]==#
+#Screen Creation
+SCREEN_SIZE =       (700, 500) #700x500
+backgroundColor =   (50, 50, 50) #Dark Grey
+platformColor =     (16, 173, 42) #Green
+goalColor =         (237, 12, 12) #Red
+#Pygame
+clock =             None
+screen =            None
+font =              None
+user =              None
+game_state =        False
+#Game Settings
+score =             0
 
-# init - main.py
-pygame.init()
-screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption('StarDust')
-clock = pygame.time.Clock()
-font = pygame.font.Font(pygame.font.get_default_font(), 24)
-# game states = playing // winning // losing
-game_state = 'playing'
-
-
-def getState():
-    return game_state
-
-
-# end goal - COIN.py
-goal = pygame.Rect(350, 0, 10, 30)
-
-# player - PLAYER.py
-player_image = pygame.image.load('Sprites/adventurer-idle-02.png')
-player_x = 0
-player_y = 0
-player_speed = 0
-player_acceleration = 0.2
-player_width = 19
-player_height = 30
-
-
-def getX():
-    return player_x
-
-
-def getY():
-    return player_y
-
-
-# platforms - PLATFORM.py
-platforms = [
-
-    pygame.Rect(0, 450, 50, 50),
-    pygame.Rect(100, 450, 50, 50),
-    pygame.Rect(200, 450, 50, 50),
-    pygame.Rect(350, 450, 50, 50),
-    pygame.Rect(400, 400, 50, 50),
-    pygame.Rect(450, 350, 50, 50),
-    pygame.Rect(500, 300, 50, 50),
-    pygame.Rect(550, 250, 50, 50),
-    pygame.Rect(600, 200, 50, 50),
-    pygame.Rect(450, 200, 50, 50),
-    pygame.Rect(250, 300, 100, 25),
-    pygame.Rect(300, 150, 100, 25),
-    pygame.Rect(300, 100, 25, 50)
-]
-# Coins - COIN.py
 coin_image = pygame.image.load('Image/coin11.png')
 coin = [
     pygame.Rect(600, 150, 22, 22),
     pygame.Rect(200, 250, 22, 22)
     ]
+goal = pygame.Rect(350, 0, 10, 30)
 
-# main.py
-score = 0
+def drawtext(t, x, y):
+    text = font.render(t, TRUE, platformColor, backgroundColor)
+    text_rectangle = text.get_rect()
+    text_rectangle.topleft = (x, y)
+    screen.blit(text, text_rectangle)
 
-def getScore():
-    return score
+def getState():
+    return game_state
 
-# game loop - SCREEN.py
+pygame.init()
+screen = pygame.display.set_mode(SCREEN_SIZE)
+pygame.display.set_caption('StarDust')
+clock = pygame.time.Clock()
+font = pygame.font.Font(pygame.font.get_default_font(), 24)
+game_state = 'playing'
+
+# RUN GAME
 running = True
 while running:
     # ------
@@ -97,20 +59,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     if game_state == 'playing':
-        new_player_x = player_x
-        new_player_y = player_y
-
-        # player input
-        keys = pygame.key.get_pressed()
-        # a=left
-        if keys[pygame.K_a]:
-            new_player_x -= 2
-        # d=right
-        if keys[pygame.K_d]:
-            new_player_x += 2
-        # w=jump (if on the ground)
-        if keys[pygame.K_w] and player_on_ground:
-            player_speed = -5
+        new_player_x = player.player_x
+        new_player_y = player.player_y
+        player.movement()
 
     # ------
     # update
@@ -121,7 +72,7 @@ while running:
                                       player_width, player_height)
         x_collision = False
         # ..check against every playform
-        for p in platforms:
+        for p in platform.platforms:
             if p.colliderect(new_player_rect):
                 x_collision = TRUE
                 break
@@ -139,7 +90,7 @@ while running:
         y_collision = False
         player_on_ground = False
         # ..check against every playform
-        for p in platforms:
+        for p in platform.platforms:
             if p.colliderect(new_player_rect):
                 y_collision = TRUE
                 player_speed = 0
@@ -175,11 +126,11 @@ while running:
     # -----
 
     # background
-    screen.fill(DARK_GREY)
+    screen.fill(backgroundColor)
     if game_state == 'playing':
         # plaforms
-        for p in platforms:
-            pygame.draw.rect(screen, GREEN, p)
+        for p in platform.platforms:
+            pygame.draw.rect(screen, platformColor, p)
 
         # coins
         for c in coin:
@@ -189,7 +140,7 @@ while running:
         screen.blit(player_image, (player_x, player_y))
 
         # End Goal
-        pygame.draw.rect(screen, RED, goal)
+        pygame.draw.rect(screen, goalColor, goal)
 
         drawtext('Score: ' + str(score), 10, 10)
 
