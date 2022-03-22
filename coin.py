@@ -15,13 +15,17 @@ def collect(x, y):
     player_x = x
     player_y = y
     player_rect = pygame.Rect(player_x, player_y,
-                              player.player_width, player.player_height)
-    for c in coin:
-        if c.colliderect(player_rect):
-            coin.remove(c)
-            return 1
-        else:
-            return 0
+                            player.player_width, player.player_height)
+    if coin != []:
+        for c in coin:
+            if c.colliderect(player_rect):
+                coin.remove(c)
+                return 1
+            else:
+                return 0
+    else:
+        return 0
+        
 def end(x, y):
     player_x = x
     player_y = y
