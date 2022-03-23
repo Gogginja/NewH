@@ -1,158 +1,101 @@
-# Link for Sprite:https://rvros.itch.io/animated-pixel-hero
+from pickle import FALSE, TRUE
+from tkinter import Y
+from turtle import _Screen
+from types import NoneType
 
-# Star Sprite bs galangpiliang
-# Link:https://opengameart.org/content/star-vector
-
-from pickle import TRUE
 import pygame
 import platform
 import player
+import coin
 
+class main:
+    global SCREEN_SIZE,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,mouse,clock,game_state,currentLevel
+    SCREEN_SIZE = (700, 500)
+    DARK_GREY = (50, 50, 50)
+    GREEN = (16, 173, 42)
+    WHITE = (255,255,255)
+    DARK = (100,100,100)
+    screen = pygame.display.set_mode(SCREEN_SIZE)
+    width = screen.get_width()
+    height = screen.get_height()
+    mouse = pygame.mouse.get_pos()
 
-#==[ Global Variables ]==#
-#Screen Creation
-SCREEN_SIZE =       (700, 500) #700x500
-backgroundColor =   (50, 50, 50) #Dark Grey
-platformColor =     (16, 173, 42) #Green
-goalColor =         (237, 12, 12) #Red
-#Pygame
-clock =             None
-screen =            None
-font =              None
-user =              None
-game_state =        False
-#Game Settings
-score =             0
+    clock = pygame.time.Clock()
+    game_state = 'play'
+    currentLevel = 0
+    
+    run  = TRUE
+    while run == TRUE:
+        pygame.init()
 
-coin_image = pygame.image.load('Image/coin11.png')
-coin = [
-    pygame.Rect(600, 150, 22, 22),
-    pygame.Rect(200, 250, 22, 22)
-    ]
-goal = pygame.Rect(350, 0, 10, 30)
+############################ MAIN MENU CONFIG ################################
 
-def drawtext(t, x, y):
-    text = font.render(t, TRUE, platformColor, backgroundColor)
-    text_rectangle = text.get_rect()
-    text_rectangle.topleft = (x, y)
-    screen.blit(text, text_rectangle)
+        if currentLevel == 0:
+            # BUTTON SETTINGS #
+            beginPos = [width/6, height/6]
+            settingsPos = [width/6, height/3]
+            quitPos = [width/6, height/2]
+            mouse = pygame.mouse.get_pos()
 
-def getState():
-    return game_state
+            # BUTTON CREATION FUNCTION #
+            def createButton(text, x, y):
+                smallfont = pygame.font.SysFont('Corbel',35)
+                buttonText = smallfont.render(text, True, WHITE)
+                mouse = pygame.mouse.get_pos() 
+                if (x <= mouse[0] <= x+140) and (y <= mouse[1] <= y+40): 
+                    pygame.draw.rect(screen,(255,255,255),[x,y,140,40]) 
+                else: 
+                    pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
+                screen.blit(buttonText, (x+40, y)) 
 
-pygame.init()
-screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption('StarDust')
-clock = pygame.time.Clock()
-font = pygame.font.Font(pygame.font.get_default_font(), 24)
-game_state = 'playing'
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.QUIT: 
+                    pygame.quit() 
+                # If mouse is click:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    #If mouse clicks BEGIN then create Level 1.
+                    if (beginPos[0] <= mouse[0] <= beginPos[0]+140) and (beginPos[1] <= mouse[1] <= beginPos[1]+40): 
+                        currentLevel = 1
+                    elif (settingsPos[0] <= mouse[0] <= settingsPos[0]+140) and (settingsPos[1] <= mouse[1] <= settingsPos[1]+40): 
+                        print('PRESSED SETTINGS')
+                    elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40): 
+                        pygame.quit()
+                    
+            # fills the screen with a color 
+            screen.fill((60,25,60))  
+            
+            # BUTTON CREATION #
+            createButton('BEGIN', beginPos[0], beginPos[1]) 
+            createButton('SETTINGS', settingsPos[0], settingsPos[1]) 
+            createButton('QUIT', quitPos[0], quitPos[1]) 
+            
+            # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
+            pygame.display.update()
 
-# RUN GAME
-running = True
-while running:
-    # ------
-    # Input
-    # ------
+############################ LEVEL 1 CONFIG ################################
 
-    # checking for quit - SCREEN.py
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    if game_state == 'playing':
-        new_player_x = player.player_x
-        new_player_y = player.player_y
-        player.movement()
-
-    # ------
-    # update
-    # s------
-    # horizontal movement
-    if game_state == 'playing':
-        new_player_rect = pygame.Rect(new_player_x, player_y,
-                                      player_width, player_height)
-        x_collision = False
-        # ..check against every playform
-        for p in platform.platforms:
-            if p.colliderect(new_player_rect):
-                x_collision = TRUE
-                break
-
-        if x_collision is False:
-            player_x = new_player_x
-
-        # vertical movement
-
-        player_speed += player_acceleration
-        new_player_y += player_speed
-
-        new_player_rect = pygame.Rect(player_x, new_player_y,
-                                      player_width, player_height)
-        y_collision = False
-        player_on_ground = False
-        # ..check against every playform
-        for p in platform.platforms:
-            if p.colliderect(new_player_rect):
-                y_collision = TRUE
-                player_speed = 0
-                # if the platform is below the player
-                if p[1] > new_player_y:
-                    # stick player to platform
-                    player_y = p[1] - player_height
-                    player_on_ground = True
-                break
-
-        if y_collision is False:
-            player_y = new_player_y
-        # see if any coins have been collected
-        if player_y >= 500:
-            game_state = 'lose'
-        player_rect = pygame.Rect(player_x, player_y,
-                                  player_width, player_height)
-        for c in coin:
-            if c.colliderect(player_rect):
-                coin.remove(c)
-                score += 1
-        # check endgame
-        goal_collision = False
-        if goal_collision is False:
-            player_rect = pygame.Rect(player_x, player_y,
-                                      player_width, player_height)
-
-            if goal.colliderect(player_rect):
-                game_state = 'win'
-
-    # -----
-    # Draw
-    # -----
-
-    # background
-    screen.fill(backgroundColor)
-    if game_state == 'playing':
-        # plaforms
-        for p in platform.platforms:
-            pygame.draw.rect(screen, platformColor, p)
-
-        # coins
-        for c in coin:
-            screen.blit(coin_image, (c[0], c[1]))
-
-        # player
-        screen.blit(player_image, (player_x, player_y))
-
-        # End Goal
-        pygame.draw.rect(screen, goalColor, goal)
-
-        drawtext('Score: ' + str(score), 10, 10)
-
-    if game_state == 'win':
-        # draw win text
-        drawtext('You Win!', 10, 10)
-
-    if game_state == 'lose':
-        # draw lose text
-        drawtext('You Lose!', 10, 10)
-
-    pygame.display.flip()
-    clock.tick(60)
-# quit
-pygame.quit()
+        if currentLevel == 1:
+            screen.fill(DARK_GREY)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+            for c in coin.coin:
+                screen.blit(coin.coin_image, (c[0], c[1]))
+            pygame.draw.rect(screen, coin.RED, coin.goal)
+            screen.blit(player.player_image, (player.player_x, player.player_y))
+            keys = pygame.key.get_pressed()
+            player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
+                                                        player.player_width, player.player_height)
+            fall = player.movementVertical(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground)
+            
+            coin.score += coin.collect(player.player_x,player.player_y)
+            # End Goal
+            run = coin.end(player.player_x, player.player_y)
+            player.player_y = fall[0]
+            player.player_speed = fall[1]
+            player.ground = fall[2]
+            platform.makePlatform(screen,platform.platforms,GREEN)
+            pygame.display.flip()
+            clock.tick(60)
+    pygame.quit()
