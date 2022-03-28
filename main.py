@@ -8,7 +8,7 @@ import player
 import coin
 
 class main:
-    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,currentScreen
+    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,screenList,currentScreen
     SCREEN_SIZE =   (700, 500)
     MENU_COLOR =    (50, 50, 50)
     DARK_GREY =     (50, 50, 50)
@@ -23,10 +23,10 @@ class main:
     game_state =    'play'
     
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
-    currentScreen =   'mainMenu'
+    currentScreen = 'mainMenu'
     
 
-    run  = TRUE
+    run = TRUE
     while run == TRUE:
         pygame.init()
         mouse = pygame.mouse.get_pos()
@@ -34,14 +34,15 @@ class main:
 
         # BUTTON CREATION FUNCTION #
         def createButton(text, x, y):
-            smallfont = pygame.font.SysFont('Corbel',35)
+            smallfont = pygame.font.SysFont('Corbel',20)
             buttonText = smallfont.render(text, True, WHITE)
             mouse = pygame.mouse.get_pos() 
             if (x <= mouse[0] <= x+140) and (y <= mouse[1] <= y+40): 
                 pygame.draw.rect(screen,(255,255,255),[x,y,140,40]) 
             else: 
                 pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
-            screen.blit(buttonText, (x+40, y)) 
+            #add text (centered on the button)
+            screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2)) 
 
 ############################ MAIN MENU ################################
 
