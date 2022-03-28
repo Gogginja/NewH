@@ -8,6 +8,7 @@ import player
 import coin
 
 class main:
+    # GLOBAL VARIABLES #
     global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,screenList,currentScreen
     SCREEN_SIZE =   (700, 500)
     MENU_COLOR =    (50, 50, 50)
@@ -24,13 +25,15 @@ class main:
     
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
     currentScreen = 'mainMenu'
-    
+    run =           TRUE
 
-    run = TRUE
+# MAIN GAME LOOP #
     while run == TRUE:
         pygame.init()
         mouse = pygame.mouse.get_pos()
         screen.fill(MENU_COLOR)
+        # set FPS
+        clock.tick(60)
 
         # BUTTON CREATION FUNCTION #
         def createButton(text, x, y):
@@ -54,15 +57,15 @@ class main:
 
             # EVENT HANDLER #
             for ev in pygame.event.get(): 
-                if ev.type == pygame.QUIT: 
-                    pygame.quit() 
-                # If mouse is click:
+                # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    #If mouse clicks BEGIN then create Level 1.
+                    # Level Select
                     if (levelSelect[0] <= mouse[0] <= levelSelect[0]+140) and (levelSelect[1] <= mouse[1] <= levelSelect[1]+40): 
                         currentScreen = 'level_select'
+                    # Settings
                     elif (settingsPos[0] <= mouse[0] <= settingsPos[0]+140) and (settingsPos[1] <= mouse[1] <= settingsPos[1]+40): 
                         currentScreen = 'settings'
+                    # Quit
                     elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40): 
                         pygame.quit()
             
@@ -82,17 +85,18 @@ class main:
 
             # EVENT HANDLER #
             for ev in pygame.event.get(): 
-                if ev.type == pygame.QUIT: 
-                    pygame.quit() 
-                # If mouse is click:
+                # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    #If mouse clicks BEGIN then create Level 1.
+                    # Audio
                     if (audioPos[0] <= mouse[0] <= audioPos[0]+140) and (audioPos[1] <= mouse[1] <= audioPos[1]+40): 
                         currentScreen = 'settings_audio'
+                    # Gameplay
                     elif (gameplayPos[0] <= mouse[0] <= gameplayPos[0]+140) and (gameplayPos[1] <= mouse[1] <= gameplayPos[1]+40): 
                         currentScreen = 'settings_gameplay'
+                    # Video
                     elif (videoPos[0] <= mouse[0] <= videoPos[0]+140) and (videoPos[1] <= mouse[1] <= videoPos[1]+40): 
                         currentScreen = 'settings_video'
+                    # Back
                     elif (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
                         currentScreen = 'mainMenu'
             
@@ -110,11 +114,9 @@ class main:
 
             # EVENT HANDLER #
             for ev in pygame.event.get(): 
-                if ev.type == pygame.QUIT: 
-                    pygame.quit() 
-                # If mouse is click:
+                # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    #If mouse clicks BEGIN then create Level 1.
+                    # Back
                     if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
                         currentScreen = 'settings'
             
@@ -129,11 +131,9 @@ class main:
 
             # EVENT HANDLER #
             for ev in pygame.event.get(): 
-                if ev.type == pygame.QUIT: 
-                    pygame.quit() 
-                # If mouse is click:
+                # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    #If mouse clicks BEGIN then create Level 1.
+                    # Back
                     if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
                         currentScreen = 'settings'  
             
@@ -148,11 +148,9 @@ class main:
 
             # EVENT HANDLER #
             for ev in pygame.event.get(): 
-                if ev.type == pygame.QUIT: 
-                    pygame.quit() 
-                # If mouse is click:
+                # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    #If mouse clicks BEGIN then create Level 1.
+                    # Back
                     if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
                         currentScreen = 'settings'  
             
@@ -168,13 +166,12 @@ class main:
 
             # EVENT HANDLER #
             for ev in pygame.event.get(): 
-                if ev.type == pygame.QUIT: 
-                    pygame.quit() 
-                # If mouse is click:
+                # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    #If mouse clicks BEGIN then create Level 1.
+                    # Back
                     if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
                         currentScreen = 'mainMenu'
+                    # Level 1
                     elif (level1Pos[0] <= mouse[0] <= level1Pos[0]+140) and (level1Pos[1] <= mouse[1] <= level1Pos[1]+40):
                         currentScreen = 'level_1' 
             
@@ -186,11 +183,10 @@ class main:
 
         if currentScreen == 'level_1':
             screen.fill(DARK_GREY)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
+
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
+
             pygame.draw.rect(screen, coin.RED, coin.goal)
             screen.blit(player.player_image, (player.player_x, player.player_y))
             keys = pygame.key.get_pressed()
@@ -207,7 +203,6 @@ class main:
             player.ground = fall[2]
             platform.makePlatform(screen,platform.platforms,GREEN)
             pygame.display.flip()
-            clock.tick(60)
 
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
         pygame.display.update()
