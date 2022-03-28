@@ -1,7 +1,6 @@
 from pickle import FALSE, TRUE
 from tkinter import Y
 from turtle import _Screen
-from types import NoneType
 
 import pygame
 import platform
@@ -9,72 +8,182 @@ import player
 import coin
 
 class main:
-    global SCREEN_SIZE,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,mouse,clock,game_state,currentLevel
-    SCREEN_SIZE = (700, 500)
-    DARK_GREY = (50, 50, 50)
-    GREEN = (16, 173, 42)
-    WHITE = (255,255,255)
-    DARK = (100,100,100)
-    screen = pygame.display.set_mode(SCREEN_SIZE)
-    width = screen.get_width()
-    height = screen.get_height()
-    mouse = pygame.mouse.get_pos()
+    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,currentScreen
+    SCREEN_SIZE =   (700, 500)
+    MENU_COLOR =    (50, 50, 50)
+    DARK_GREY =     (50, 50, 50)
+    GREEN =         (16, 173, 42)
+    WHITE =         (255,255,255)
+    DARK =          (100,100,100)
+    screen =        pygame.display.set_mode(SCREEN_SIZE)
+    width =         screen.get_width()
+    height =        screen.get_height()
 
-    clock = pygame.time.Clock()
-    game_state = 'play'
-    currentLevel = 0
+    clock =         pygame.time.Clock()
+    game_state =    'play'
     
+    screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
+    currentScreen =   'mainMenu'
+    
+
     run  = TRUE
     while run == TRUE:
         pygame.init()
+        mouse = pygame.mouse.get_pos()
+        screen.fill(MENU_COLOR)
 
-############################ MAIN MENU CONFIG ################################
+        # BUTTON CREATION FUNCTION #
+        def createButton(text, x, y):
+            smallfont = pygame.font.SysFont('Corbel',35)
+            buttonText = smallfont.render(text, True, WHITE)
+            mouse = pygame.mouse.get_pos() 
+            if (x <= mouse[0] <= x+140) and (y <= mouse[1] <= y+40): 
+                pygame.draw.rect(screen,(255,255,255),[x,y,140,40]) 
+            else: 
+                pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
+            screen.blit(buttonText, (x+40, y)) 
 
-        if currentLevel == 0:
+############################ MAIN MENU ################################
+
+        if currentScreen == 'mainMenu':
             # BUTTON SETTINGS #
-            beginPos = [width/6, height/6]
+            levelSelect = [width/6, height/6]
             settingsPos = [width/6, height/3]
             quitPos = [width/6, height/2]
-            mouse = pygame.mouse.get_pos()
 
-            # BUTTON CREATION FUNCTION #
-            def createButton(text, x, y):
-                smallfont = pygame.font.SysFont('Corbel',35)
-                buttonText = smallfont.render(text, True, WHITE)
-                mouse = pygame.mouse.get_pos() 
-                if (x <= mouse[0] <= x+140) and (y <= mouse[1] <= y+40): 
-                    pygame.draw.rect(screen,(255,255,255),[x,y,140,40]) 
-                else: 
-                    pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
-                screen.blit(buttonText, (x+40, y)) 
-
+            # EVENT HANDLER #
             for ev in pygame.event.get(): 
                 if ev.type == pygame.QUIT: 
                     pygame.quit() 
                 # If mouse is click:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
                     #If mouse clicks BEGIN then create Level 1.
-                    if (beginPos[0] <= mouse[0] <= beginPos[0]+140) and (beginPos[1] <= mouse[1] <= beginPos[1]+40): 
-                        currentLevel = 1
+                    if (levelSelect[0] <= mouse[0] <= levelSelect[0]+140) and (levelSelect[1] <= mouse[1] <= levelSelect[1]+40): 
+                        currentScreen = 'level_select'
                     elif (settingsPos[0] <= mouse[0] <= settingsPos[0]+140) and (settingsPos[1] <= mouse[1] <= settingsPos[1]+40): 
-                        print('PRESSED SETTINGS')
+                        currentScreen = 'settings'
                     elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40): 
                         pygame.quit()
-                    
-            # fills the screen with a color 
-            screen.fill((60,25,60))  
             
             # BUTTON CREATION #
-            createButton('BEGIN', beginPos[0], beginPos[1]) 
+            createButton('SELECT LEVEL', levelSelect[0], levelSelect[1]) 
             createButton('SETTINGS', settingsPos[0], settingsPos[1]) 
             createButton('QUIT', quitPos[0], quitPos[1]) 
+
+######################### SETTIGNS - MAIN #############################
+
+        if currentScreen == 'settings':
+            # BUTTON SETTINGS #
+            audioPos = [width/6, height/6]
+            gameplayPos = [width/6, height/3]
+            videoPos = [width/6, height/2]
+            backPos = [width/1.5, height/1.5]
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.QUIT: 
+                    pygame.quit() 
+                # If mouse is click:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    #If mouse clicks BEGIN then create Level 1.
+                    if (audioPos[0] <= mouse[0] <= audioPos[0]+140) and (audioPos[1] <= mouse[1] <= audioPos[1]+40): 
+                        currentScreen = 'settings_audio'
+                    elif (gameplayPos[0] <= mouse[0] <= gameplayPos[0]+140) and (gameplayPos[1] <= mouse[1] <= gameplayPos[1]+40): 
+                        currentScreen = 'settings_gameplay'
+                    elif (videoPos[0] <= mouse[0] <= videoPos[0]+140) and (videoPos[1] <= mouse[1] <= videoPos[1]+40): 
+                        currentScreen = 'settings_video'
+                    elif (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
+                        currentScreen = 'mainMenu'
             
-            # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
-            pygame.display.update()
+            # BUTTON CREATION #
+            createButton('AUDIO', audioPos[0], audioPos[1]) 
+            createButton('GAMEPLAY', gameplayPos[0], gameplayPos[1]) 
+            createButton('VIDEO', videoPos[0], videoPos[1]) 
+            createButton('BACK', backPos[0], backPos[1]) 
 
-############################ LEVEL 1 CONFIG ################################
+######################## SETTIGNS - AUDIO ############################
 
-        if currentLevel == 1:
+        if currentScreen == 'settings_audio':
+            # BUTTON SETTINGS #
+            backPos = [width/1.5, height/1.5]
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.QUIT: 
+                    pygame.quit() 
+                # If mouse is click:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    #If mouse clicks BEGIN then create Level 1.
+                    if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
+                        currentScreen = 'settings'
+            
+            # BUTTON CREATION #
+            createButton('BACK', backPos[0], backPos[1]) 
+
+####################### SETTIGNS - GAMEPLAY ###########################
+
+        if currentScreen == 'settings_gameplay':
+            # BUTTON SETTINGS #
+            backPos = [width/1.5, height/1.5]
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.QUIT: 
+                    pygame.quit() 
+                # If mouse is click:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    #If mouse clicks BEGIN then create Level 1.
+                    if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
+                        currentScreen = 'settings'  
+            
+            # BUTTON CREATION #
+            createButton('BACK', backPos[0], backPos[1]) 
+
+######################## SETTIGNS - VIDEO #############################
+
+        if currentScreen == 'settings_video':
+            # BUTTON SETTINGS #
+            backPos = [width/1.5, height/1.5]
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.QUIT: 
+                    pygame.quit() 
+                # If mouse is click:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    #If mouse clicks BEGIN then create Level 1.
+                    if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
+                        currentScreen = 'settings'  
+            
+            # BUTTON CREATION #
+            createButton('BACK', backPos[0], backPos[1]) 
+
+########################## LEVEL SELECT ###############################
+
+        if currentScreen == 'level_select':
+            # BUTTON SETTINGS #
+            level1Pos = [width/2-70, height/3]
+            backPos = [width/1.5, height/1.5]
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.QUIT: 
+                    pygame.quit() 
+                # If mouse is click:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    #If mouse clicks BEGIN then create Level 1.
+                    if (backPos[0] <= mouse[0] <= backPos[0]+140) and (backPos[1] <= mouse[1] <= backPos[1]+40):
+                        currentScreen = 'mainMenu'
+                    elif (level1Pos[0] <= mouse[0] <= level1Pos[0]+140) and (level1Pos[1] <= mouse[1] <= level1Pos[1]+40):
+                        currentScreen = 'level_1' 
+            
+            # BUTTON CREATION #
+            createButton('LEVEL 1', level1Pos[0], level1Pos[1])
+            createButton('BACK', backPos[0], backPos[1]) 
+
+############################# LEVEL 1 #################################
+
+        if currentScreen == 'level_1':
             screen.fill(DARK_GREY)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -98,4 +207,7 @@ class main:
             platform.makePlatform(screen,platform.platforms,GREEN)
             pygame.display.flip()
             clock.tick(60)
+
+        # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
+        pygame.display.update()
     pygame.quit()
