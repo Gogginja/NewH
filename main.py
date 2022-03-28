@@ -1,5 +1,3 @@
-from pickle import FALSE, TRUE
-from tkinter import Y
 from turtle import _Screen
 
 import pygame
@@ -25,10 +23,10 @@ class main:
     
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
     currentScreen = 'mainMenu'
-    run =           TRUE
+    run =           True
 
 # MAIN GAME LOOP #
-    while run == TRUE:
+    while run:
         pygame.init()
         mouse = pygame.mouse.get_pos()
         screen.fill(MENU_COLOR)
