@@ -1,3 +1,4 @@
+from pickle import TRUE
 from turtle import _Screen
 
 import pygame
@@ -23,7 +24,7 @@ class main:
     
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
     currentScreen = 'mainMenu'
-    run =           True
+    run =           TRUE
 
 # MAIN GAME LOOP #
     while run:
@@ -182,6 +183,10 @@ class main:
         if currentScreen == 'level_1':
             screen.fill(DARK_GREY)
 
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
