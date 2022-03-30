@@ -8,7 +8,7 @@ import coin
 
 class main:
     # GLOBAL VARIABLES #
-    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,screenList,currentScreen
+    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,screenList,currentScreen,paused
     SCREEN_SIZE =   (700, 500)
     MENU_COLOR =    (50, 50, 50)
     DARK_GREY =     (50, 50, 50)
@@ -24,6 +24,7 @@ class main:
     
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
     currentScreen = 'mainMenu'
+    paused =        False
     run =           TRUE
 
 # MAIN GAME LOOP #
@@ -45,7 +46,7 @@ class main:
                 pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
             #add text (centered on the button)
             screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2)) 
-
+            
 ############################ MAIN MENU ################################
 
         if currentScreen == 'mainMenu':
@@ -182,31 +183,49 @@ class main:
 
         if currentScreen == 'level_1':
             screen.fill(DARK_GREY)
+            
+            # PAUSE EVENT
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_TAB]:
+                    paused = not paused
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                if keys[pygame.K_TAB]:
+                    paused = not paused
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
             pygame.draw.rect(screen, coin.RED, coin.goal)
             screen.blit(player.player_image, (player.player_x, player.player_y))
-            keys = pygame.key.get_pressed()
-            player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
+
+            # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
+            if paused == False:
+                player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
                                                         player.player_width, player.player_height)
-            fall = player.movementVertical(keys, player.player_x, player.player_y, 
+                fall = player.movementVertical(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground)
-            
+                player.player_y = fall[0]
+                player.player_speed = fall[1]
+                player.ground = fall[2]
+            else:
+                window = pygame.Surface(SCREEN_SIZE)
+                window.set_colorkey(WHITE)
+                window.set_alpha(10)
+                smallfont = pygame.font.SysFont('Corbel',50)
+                pauseText = smallfont.render('PAUSED', True, WHITE)
+                # PAUSE WHITE WINDOW
+                #screen.blit(window, (350, 250))
+                # PAUSE TEXT
+                screen.blit(pauseText, (350-pauseText.get_width()/2, 250-pauseText.get_height()/2))
+
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
             run = coin.end(player.player_x, player.player_y)
-            player.player_y = fall[0]
-            player.player_speed = fall[1]
-            player.ground = fall[2]
             platform.makePlatform(screen,platform.platforms,GREEN)
             pygame.display.flip()
-
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
         pygame.display.update()
     pygame.quit()
