@@ -1,6 +1,7 @@
 from pickle import TRUE
 import pygame
 
+#test
 platforms = [
     pygame.Rect(0, 450, 50, 50),
     pygame.Rect(100, 450, 50, 50),
