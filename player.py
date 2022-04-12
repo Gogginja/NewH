@@ -12,7 +12,7 @@ player_speed = 0.0
 player_width = 19
 player_height = 30
 ground = False
-    
+hook = []
 
 # player input
 def movementHorizantal(keys, x, y, w, h):
@@ -27,7 +27,7 @@ def movementHorizantal(keys, x, y, w, h):
                                       w, h)
     x_collision = False
     # ..check against every playform
-    for p in platform.platforms:
+    for p in platform.level1:
         if p.colliderect(new_player_rect):
             x_collision = TRUE
             new_player_x = x
@@ -53,7 +53,7 @@ def movementVertical(keys, x, y, w, h,  speed, ground):
             ground = FALSE
     ground = FALSE
     # ..check against every playform
-    for p in platform.platforms:
+    for p in platform.level1:
         if p.colliderect(new_player_rect):
             player_speed = 0
             # if the platform is below the player
@@ -65,5 +65,4 @@ def movementVertical(keys, x, y, w, h,  speed, ground):
                 break
         if y_collision is False:
             fall = [new_player_y,player_speed,ground]
-    return fall
-
+    return fall      

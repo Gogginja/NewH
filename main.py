@@ -1,3 +1,4 @@
+from ast import PyCF_ONLY_AST
 from pickle import TRUE
 from turtle import _Screen
 
@@ -26,6 +27,11 @@ class main:
     currentScreen = 'mainMenu'
     paused =        False
     run =           TRUE
+
+    scroll_left = False
+    scroll_right = False
+    scroll = 0
+    scroll_speed = 1
 
 # MAIN GAME LOOP #
     while run:
@@ -182,8 +188,8 @@ class main:
 ############################# LEVEL 1 #################################
 
         if currentScreen == 'level_1':
-            screen.fill(DARK_GREY)
-            
+
+            platform.draw_bg()
             # PAUSE EVENT
             keys = pygame.key.get_pressed()
             if keys[pygame.K_TAB]:
@@ -195,6 +201,21 @@ class main:
                 if keys[pygame.K_TAB]:
                     paused = not paused
                     
+            if player.player_x > width:
+                scroll_right = True
+            elif player.player_x < width:
+                scroll_left = True
+            else:
+                scroll_left = False
+                scroll_right = False
+
+            if scroll_left == True and scroll > 0:
+                scroll -= 5
+            if scroll_right == True:
+                scroll += 5
+
+
+
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
