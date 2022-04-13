@@ -7,9 +7,11 @@ screen = main.screen
 imageTest = pygame.image.load("Image/textures/grassy/platformA.png")
 skyTest = pygame.image.load("Image/textures/skybox.png")
 
+#Draw a more detailed background
 def draw_bg():
-    screen.fill(main.DARK_GREY)
+    #screen.fill(main.DARK_GREY)
     skyWidth = skyTest.get_width()
+    #Loops the background image everytime we scroll a certain distance
     for x in range(4):
      screen.blit(skyTest, (main.scroll * main.scroll_speed,0))
 
