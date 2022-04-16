@@ -26,6 +26,7 @@ class main:
     currentScreen = 'mainMenu'
     paused =        False
     run =           TRUE
+    deb = 0
 
 # MAIN GAME LOOP #
     while run:
@@ -193,12 +194,8 @@ class main:
 
         if currentScreen == 'level_1':
             screen.fill(DARK_GREY)
-            
-            # PAUSE EVENT
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_TAB]:
-                paused = not paused
-                    
+
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
@@ -235,11 +232,6 @@ class main:
 
         if currentScreen == 'level_2':
             screen.fill(DARK_GREY)
-            
-            # PAUSE EVENT
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_TAB]:
-                paused = not paused
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
@@ -277,11 +269,6 @@ class main:
 
         if currentScreen == 'level_3':
             screen.fill(DARK_GREY)
-            
-            # PAUSE EVENT
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_TAB]:
-                paused = not paused
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
@@ -318,6 +305,10 @@ class main:
         for ev in pygame.event.get(): 
             if ev.type == pygame.QUIT:
                 run = False
+            if ev.type == pygame.KEYDOWN:
+                    if ev.key == pygame.K_TAB:
+                        paused = not paused
+
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
         pygame.display.update()
     pygame.quit()
