@@ -84,7 +84,7 @@ class main:
             backPos = [width/1.5, height/1.5]
 
             # EVENT HANDLER #
-            for ev in pygame.event.get(): 
+            for ev in pygame.event.get():
                 # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
                     # Audio
@@ -113,7 +113,7 @@ class main:
             backPos = [width/1.5, height/1.5]
 
             # EVENT HANDLER #
-            for ev in pygame.event.get(): 
+            for ev in pygame.event.get():
                 # If mouse clicks:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
                     # Back
@@ -197,13 +197,7 @@ class main:
             # PAUSE EVENT
             keys = pygame.key.get_pressed()
             if keys[pygame.K_TAB]:
-                    paused = not paused
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                if keys[pygame.K_TAB]:
-                    paused = not paused
+                paused = not paused
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
@@ -214,9 +208,9 @@ class main:
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
                 player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
-                                                        player.player_width, player.player_height)
+                                                        player.player_width, player.player_height, platform.level1)
                 fall = player.movementVertical(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground)
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
@@ -234,7 +228,7 @@ class main:
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
             run = coin.end(player.player_x, player.player_y)
-            platform.makePlatform(screen,platform.platforms,GREEN)
+            platform.makePlatform(screen,platform.level1,GREEN)
             pygame.display.flip()
         
 ############################# LEVEL 2 #################################
@@ -245,13 +239,7 @@ class main:
             # PAUSE EVENT
             keys = pygame.key.get_pressed()
             if keys[pygame.K_TAB]:
-                    paused = not paused
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                if keys[pygame.K_TAB]:
-                    paused = not paused
+                paused = not paused
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
@@ -262,9 +250,9 @@ class main:
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
                 player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
-                                                        player.player_width, player.player_height)
+                                                        player.player_width, player.player_height, platform.level2)
                 fall = player.movementVertical(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground)
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
@@ -293,13 +281,7 @@ class main:
             # PAUSE EVENT
             keys = pygame.key.get_pressed()
             if keys[pygame.K_TAB]:
-                    paused = not paused
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                if keys[pygame.K_TAB]:
-                    paused = not paused
+                paused = not paused
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
@@ -310,9 +292,9 @@ class main:
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
                 player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
-                                                        player.player_width, player.player_height)
+                                                        player.player_width, player.player_height, platform.level3)
                 fall = player.movementVertical(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground)
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
@@ -333,6 +315,9 @@ class main:
             platform.makePlatform(screen,platform.level3,GREEN)
             pygame.display.flip()
 
+        for ev in pygame.event.get(): 
+            if ev.type == pygame.QUIT:
+                run = False
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
         pygame.display.update()
     pygame.quit()

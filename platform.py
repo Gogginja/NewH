@@ -2,7 +2,7 @@ from pickle import TRUE
 import pygame
 
 #test
-platforms = [
+level1 = [
     pygame.Rect(0, 450, 50, 50),
     pygame.Rect(100, 450, 50, 50),
     pygame.Rect(200, 450, 50, 50),
@@ -17,8 +17,6 @@ platforms = [
     pygame.Rect(300, 150, 100, 25),
     pygame.Rect(300, 100, 25, 50)
 ]
-
-level1 = [pygame.Rect(0, 450, 700, 50)]
 
 level2 = [
             pygame.Rect(0, 450, 700, 50),
