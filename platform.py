@@ -1,20 +1,7 @@
 from pickle import TRUE
-from turtle import screensize
 import pygame
-import main
+
 #test
-screen = main.screen
-imageTest = pygame.image.load("Image/textures/grassy/platformA.png")
-skyTest = pygame.image.load("Image/textures/skybox.png")
-
-#Draw a more detailed background
-def draw_bg():
-    #screen.fill(main.DARK_GREY)
-    skyWidth = skyTest.get_width()
-    #Loops the background image everytime we scroll a certain distance
-    for x in range(4):
-     screen.blit(skyTest, (main.scroll * main.scroll_speed,0))
-
 platforms = [
     pygame.Rect(0, 450, 50, 50),
     pygame.Rect(100, 450, 50, 50),
@@ -31,7 +18,7 @@ platforms = [
     pygame.Rect(300, 100, 25, 50)
 ]
 
-level1 = [pygame.Rect(main.scroll, 450, 700, 50)]
+level1 = [pygame.Rect(0, 450, 700, 50)]
 
 level2 = [
             pygame.Rect(0, 450, 700, 50),
@@ -71,6 +58,7 @@ level4 = [
 slopes = [
             #pygame.polygon((200,200),(200,250),(300,200),(300,150))
          ]
+
 
 def makePlatform(screen,arr, color):
     #Test for an upward incline using polygons
