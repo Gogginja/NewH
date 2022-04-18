@@ -1,21 +1,40 @@
+from asyncio.windows_events import NULL
 from hmac import new
 from pickle import FALSE, TRUE
 import platform
 from turtle import speed
 import pygame
-    
 
-player_image = pygame.image.load('Sprites/adventurer-idle-02.png')
+global run_anim, idle_anim, current_index, current_image
+run_anim = [
+    pygame.image.load('Sprites/run/adventurer-run-00.png'),
+    pygame.image.load('Sprites/run/adventurer-run-01.png'),
+    pygame.image.load('Sprites/run/adventurer-run-02.png'),
+    pygame.image.load('Sprites/run/adventurer-run-03.png'),
+    pygame.image.load('Sprites/run/adventurer-run-04.png'),
+    pygame.image.load('Sprites/run/adventurer-run-05.png')
+    ]
+idle_anim = [
+    pygame.image.load('Sprites/idle/adventurer-idle-00.png'),
+    pygame.image.load('Sprites/idle/adventurer-idle-01.png'),
+    pygame.image.load('Sprites/idle/adventurer-idle-02.png'),
+    pygame.image.load('Sprites/idle/adventurer-idle-03.png')
+    ]
+
+current_index = 0
+current_image = pygame.image.load('Sprites/idle/adventurer-idle-00.png')
+movement = 'standing'
+
 player_x = 0
 player_y = 0
 player_speed = 0.0
 player_width = 19
 player_height = 30
 ground = False
-    
 
 # player input
 def movementHorizantal(keys, x, y, w, h, level):
+    movement = 'running'
     new_player_x = x
     # a=left
     if keys[pygame.K_a]:
@@ -23,8 +42,8 @@ def movementHorizantal(keys, x, y, w, h, level):
     # d=right
     if keys[pygame.K_d]:
         new_player_x += 2
-    new_player_rect = pygame.Rect(new_player_x, y,
-                                      w, h)
+
+    new_player_rect = pygame.Rect(new_player_x, y, w, h)
     x_collision = False
     # ..check against every playform
     for p in level:
@@ -34,11 +53,10 @@ def movementHorizantal(keys, x, y, w, h, level):
             break
 
         #if x_collision is False:
-         #  return new_player_x
+        #  return new_player_x
     return new_player_x
 
 def movementVertical(keys, x, y, w, h,  speed, ground, level):
-    
     new_player_y = y
     player_speed = speed
     player_acceleration = 0.2
@@ -46,7 +64,7 @@ def movementVertical(keys, x, y, w, h,  speed, ground, level):
     new_player_y += player_speed
     fall = [new_player_y, player_speed, ground]
     new_player_rect = pygame.Rect(x, new_player_y,
-                                      w, h)
+                                    w, h)
     y_collision = False
     if keys[pygame.K_w] and ground == TRUE:
             player_speed = -5

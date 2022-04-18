@@ -18,6 +18,7 @@ class main:
     screen =        pygame.display.set_mode(SCREEN_SIZE)
     width =         screen.get_width()
     height =        screen.get_height()
+    plr =           player.current_image
 
     clock =         pygame.time.Clock()
     game_state =    'play'
@@ -198,9 +199,22 @@ class main:
 
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
+            
+            # ANIMATION HANDLER
+            deb += 1
+            # Every 10 frames, update the animation to the next frame
+            if deb == 15:
+                # if idle
+                if player.movement == 'standing':
+                    player.current_index += 1
+                    if player.current_index == len(player.idle_anim):
+                        player.current_index = 0
+                    player.current_image = player.idle_anim[player.current_index]
+            elif deb > 15:
+                deb = 0
 
             pygame.draw.rect(screen, coin.RED, coin.goal)
-            screen.blit(player.player_image, (player.player_x, player.player_y))
+            screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
@@ -232,12 +246,26 @@ class main:
 
         if currentScreen == 'level_2':
             screen.fill(DARK_GREY)
-                    
+            keys = pygame.key.get_pressed()
+
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
+            # ANIMATION HANDLER
+            deb += 1
+            # Every 10 frames, update the animation to the next frame
+            if deb == 15:
+                # if idle
+                if player.movement == 'standing':
+                    player.current_index += 1
+                    if player.current_index == len(player.idle_anim):
+                        player.current_index = 0
+                    player.current_image = player.idle_anim[player.current_index]
+            elif deb > 15:
+                deb = 0
+            
             pygame.draw.rect(screen, coin.RED, coin.goal)
-            screen.blit(player.player_image, (player.player_x, player.player_y))
+            screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
@@ -269,6 +297,7 @@ class main:
 
         if currentScreen == 'level_3':
             screen.fill(DARK_GREY)
+            keys = pygame.key.get_pressed()
                     
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
