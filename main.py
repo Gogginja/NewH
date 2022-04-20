@@ -260,6 +260,8 @@ class main:
             # End Goal
             if coin.end(player.player_x, player.player_y)==TRUE:
                 currentScreen='mainMenu'
+                player.player_x=0
+                player.player_y=0
             platform.makePlatform(screen,platform.level1,GREEN)
             pygame.display.flip()
         
@@ -272,7 +274,7 @@ class main:
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
             
-            pygame.draw.rect(screen, coin.RED, coin.goal)
+            pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
@@ -311,7 +313,7 @@ class main:
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
-            pygame.draw.rect(screen, coin.RED, coin.goal)
+            pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
