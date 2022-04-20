@@ -29,6 +29,21 @@ class main:
     run =           TRUE
     deb = 0
 
+    skyTest = pygame.image.load('Image/textures/skybox.png')
+
+    scroll_left = False
+    scroll_right = False
+    scroll = 0
+    scroll_speed = 1
+
+    #Draw a more detailed background
+    def draw_bg(sky, scroll, speed):
+        width = sky.getWidth()
+        #Loops the background image everytime we scroll a certain distance
+        for x in range(4):
+            screen.blit(sky, ((x * width) - (scroll * speed),0))
+
+
 # MAIN GAME LOOP #
     while run:
         pygame.init()
@@ -36,6 +51,20 @@ class main:
         screen.fill(MENU_COLOR)
         # set FPS
         clock.tick(60)
+       
+        if player.player_x > width:
+            scroll_right == True
+        elif player.player_x < 0:
+            scroll_left == True
+        else:
+            scroll_left == False
+            scroll_right == False
+        
+        if scroll_left == True and scroll > 0:
+            scroll -= 5
+        if scroll_right == True:
+            scroll += 5
+
 
         # BUTTON CREATION FUNCTION #
         def createButton(text, x, y):
@@ -194,7 +223,11 @@ class main:
 ############################# LEVEL 1 #################################
 
         if currentScreen == 'level_1':
-            screen.fill(DARK_GREY)
+
+            #Draws a scrollable background
+            draw_bg(skyTest, scroll, scroll_speed)
+
+            #screen.fill(DARK_GREY)
             keys = pygame.key.get_pressed()
 
             for c in coin.coin:

@@ -188,4 +188,8 @@ def animate():
             # if idle
             playAnim(fall_anim)
         elif deb > 15:
+<<<<<<< HEAD
             deb = 0
+=======
+            deb = 0
+>>>>>>> 5564265f7bf6f3db84613156b32f873e9012bdd2
