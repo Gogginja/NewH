@@ -38,7 +38,7 @@ def getState():
 goal = pygame.Rect(350, 0, 10, 30)
 
 # player - PLAYER.py
-player_image = pygame.image.load('Sprites/adventurer-idle-02.png')
+player_image = pygame.image.load('Sprites/idle/adventurer-idle-02.png')
 player_x = 0
 player_y = 0
 player_speed = 0
