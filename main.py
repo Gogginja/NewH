@@ -38,7 +38,7 @@ class main:
 
     #Draw a more detailed background
     def draw_bg(sky, scroll, speed):
-        width = sky.getWidth()
+        width = sky.get_width()
         #Loops the background image everytime we scroll a certain distance
         for x in range(4):
             screen.blit(sky, ((x * width) - (scroll * speed),0))
