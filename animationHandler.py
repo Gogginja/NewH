@@ -60,15 +60,15 @@ def animate(state,direction,current_index,deb):
         if deb == 5:
             # if idle
             playAnim(idle_anim)
-        elif deb > 15:
+        elif deb > 5:
             deb = 0
     elif state == 'run':
         deb += 1
         # Every 2 frames, update the animation to the next frame
-        if deb == 2:
+        if deb == 1:
             # if idle
             playAnim(run_anim)
-        elif deb > 15:
+        elif deb > 2:
             deb = 0
     elif state == 'jumping':
         deb += 1
@@ -76,7 +76,7 @@ def animate(state,direction,current_index,deb):
         if deb == 2:
             # if idle
             playAnim(jump_anim)
-        elif deb > 15:
+        elif deb > 2:
             deb = 0
     elif state == 'jumping-left':
         deb += 1
@@ -84,7 +84,7 @@ def animate(state,direction,current_index,deb):
         if deb == 2:
             # if idle
             playAnim(cornerJump_anim)
-        elif deb > 15:
+        elif deb > 2:
             deb = 0
     elif state == 'jumping-right':
         deb += 1
@@ -92,7 +92,7 @@ def animate(state,direction,current_index,deb):
         if deb == 2:
             # if idle
             playAnim(cornerJump_anim)
-        elif deb > 15:
+        elif deb > 2:
             deb = 0
     elif state == 'falling':
         deb += 1
@@ -100,5 +100,5 @@ def animate(state,direction,current_index,deb):
         if deb == 5:
             # if idle
             playAnim(fall_anim)
-        elif deb > 15:
+        elif deb > 5:
             deb = 0

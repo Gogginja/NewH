@@ -95,7 +95,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
     ground = FALSE
 
     # If player is falling
-    if player_speed >= 0:
+    if player_speed >= 1:
         state = 'falling'
     
     # COLLISION HANDLER
