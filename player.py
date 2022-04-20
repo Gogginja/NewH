@@ -5,7 +5,6 @@ import platform
 from turtle import speed
 import pygame
 
-global run_anim, idle_anim, current_index, current_image
 run_anim = [
     pygame.image.load('Sprites/run/adventurer-run-00.png'),
     pygame.image.load('Sprites/run/adventurer-run-01.png'),
@@ -96,7 +95,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
     ground = FALSE
 
     # If player is falling
-    if player_speed >= 1:
+    if player_speed > 1:
         state = 'falling'
     
     # COLLISION HANDLER

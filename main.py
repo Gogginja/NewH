@@ -55,6 +55,11 @@ class main:
             pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
         #add text (centered on the button)
         screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2))
+    
+    def createText(text, x, y):
+        smallfont = pygame.font.SysFont('Corbel',50)
+        txt = smallfont.render(text, True, WHITE)
+        screen.blit(txt, (x-txt.get_width()/2, y-txt.get_height()))
 
     # PAUSE MENU #
     def pause():
@@ -246,10 +251,16 @@ class main:
                         currentScreen = 'level_1' 
                     # Level 2
                     elif (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
-                        currentScreen = 'level_2'
+                        if not platform.locked2:
+                            currentScreen = 'level_2'
+                        else:
+                            createText('LOCKED', 350, 115)
                     # Level 3
                     elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
-                        currentScreen = 'level_3' 
+                        if not platform.locked3:
+                            currentScreen = 'level_3'
+                        else:
+                            createText('LOCKED', 350, 115)
             
             # BUTTON CREATION #
             createButton('LEVEL 1', level1Pos[0], level1Pos[1])
@@ -275,6 +286,7 @@ class main:
 
             coin.score += coin.collect(player.player_x,player.player_y)
             if coin.end(player.player_x, player.player_y)==TRUE:
+                platform.locked2 = False
                 currentScreen='mainMenu'
                 player.player_x=0
                 player.player_y=0
@@ -316,6 +328,9 @@ class main:
             # End Goal
             if coin.end(player.player_x, player.player_y)==TRUE:
                 currentScreen='mainMenu'
+                platform.locked3 = False
+                player.player_x=0
+                player.player_y=0
             platform.makePlatform(screen,platform.level2,GREEN)
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
@@ -353,7 +368,9 @@ class main:
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
             if coin.end(player.player_x, player.player_y)==TRUE:
-                currentScreen='mainMenu' 
+                currentScreen='mainMenu'
+                player.player_x=0
+                player.player_y=0
             platform.makePlatform(screen,platform.level3,GREEN)
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
