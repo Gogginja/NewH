@@ -38,7 +38,7 @@ class main:
 
     #Draw a more detailed background
     def draw_bg(sky, scroll, speed):
-        width = sky.getWidth()
+        width = sky.get_width()
         #Loops the background image everytime we scroll a certain distance
         for x in range(4):
             screen.blit(sky, ((x * width) - (scroll * speed),0))
@@ -233,7 +233,7 @@ class main:
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
-            pygame.draw.rect(screen, coin.RED, coin.goal)
+            pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
@@ -258,7 +258,8 @@ class main:
 
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
-            run = coin.end(player.player_x, player.player_y)
+            if coin.end(player.player_x, player.player_y)==TRUE:
+                currentScreen='mainMenu'
             platform.makePlatform(screen,platform.level1,GREEN)
             pygame.display.flip()
         
@@ -296,7 +297,8 @@ class main:
 
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
-            run = coin.end(player.player_x, player.player_y)
+            if coin.end(player.player_x, player.player_y)==TRUE:
+                currentScreen='mainMenu'
             platform.makePlatform(screen,platform.level2,GREEN)
             pygame.display.flip()
 
@@ -334,10 +336,19 @@ class main:
 
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
-            run = coin.end(player.player_x, player.player_y)
+            if coin.end(player.player_x, player.player_y)==TRUE:
+                currentScreen='mainMenu' 
             platform.makePlatform(screen,platform.level3,GREEN)
             pygame.display.flip()
-
+        #Check if player falls off map and loses life
+        if player.player_y>500:
+            if player.player_life>0:
+               player.player_life-=1
+               player.player_x=0
+               player.player_y=0
+            if player.player_life<=0:
+                player.player_life=3
+                currentScreen = 'mainMenu' 
         for ev in pygame.event.get(): 
             if ev.type == pygame.QUIT:
                 run = False

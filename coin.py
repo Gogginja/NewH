@@ -7,8 +7,9 @@ coin = [
     pygame.Rect(200, 250, 22, 22)
     ]
 RED = (237, 12, 12)
-goal = pygame.Rect(350, 0, 10, 30)
-
+goal = [
+    pygame.Rect(350, 0, 10, 30)
+    ]
 score = 0
 
 def collect(x, y):
@@ -31,7 +32,10 @@ def end(x, y):
     player_y = y
     player_rect = pygame.Rect(player_x, player_y,
                               player.player_width, player.player_height)
-    if goal.colliderect(player_rect):       
-        return FALSE
+    for g in goal:
+            if g.colliderect(player_rect):
+                return TRUE
+            else:
+                return FALSE
     else:
-        return TRUE
+        return FALSE
