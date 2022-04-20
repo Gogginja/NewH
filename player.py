@@ -45,6 +45,7 @@ state = 'idle'
 direction = True
 deb = 0
 
+player_life = 3
 player_x = 0
 player_y = 0
 player_speed = 0.0
@@ -188,8 +189,4 @@ def animate():
             # if idle
             playAnim(fall_anim)
         elif deb > 15:
-<<<<<<< HEAD
             deb = 0
-=======
-            deb = 0
->>>>>>> 5564265f7bf6f3db84613156b32f873e9012bdd2
