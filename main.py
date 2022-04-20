@@ -261,6 +261,16 @@ class main:
                             currentScreen = 'level_3'
                         else:
                             createText('LOCKED', 350, 115)
+
+            # HOVER FUNCTIONALITY #
+            # Level 1
+            if (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
+                if platform.locked2:
+                    createText('LOCKED', 350, 115)
+            # Level 3
+            elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
+                if platform.locked3:
+                    createText('LOCKED', 350, 115)
             
             # BUTTON CREATION #
             createButton('LEVEL 1', level1Pos[0], level1Pos[1])
