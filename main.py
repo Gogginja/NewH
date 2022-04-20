@@ -1,4 +1,5 @@
 from pickle import TRUE
+from re import X
 from threading import local
 from turtle import _Screen
 
@@ -61,6 +62,12 @@ class main:
         txt = smallfont.render(text, True, WHITE)
         screen.blit(txt, (x-txt.get_width()/2, y-txt.get_height()))
 
+    def drawtext(t, x, y):
+        font = pygame.font.Font(pygame.font.get_default_font(), 24)
+        text = font.render(t, TRUE, GREEN, DARK_GREY)
+        text_rectangle = text.get_rect()
+        text_rectangle.topleft = (x, y)
+        screen.blit(text, text_rectangle)
     # PAUSE MENU #
     def pause():
             global currentScreen,paused,mouse, run
@@ -103,6 +110,8 @@ class main:
     while run:
         pygame.init()
         mouse = pygame.mouse.get_pos()
+        font = pygame.font.Font(pygame.font.get_default_font(), 24)
+        
         screen.fill(MENU_COLOR)
         # set FPS
         clock.tick(60)
@@ -284,7 +293,8 @@ class main:
 
             #Draws a scrollable background
             draw_bg(skyTest, scroll, scroll_speed)
-
+            drawtext('Score: '+ str(coin.score)+' ', 0, 10)
+            drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             #screen.fill(DARK_GREY)
             keys = pygame.key.get_pressed()
 
@@ -326,6 +336,8 @@ class main:
 
         if currentScreen == 'level_2':
             screen.fill(DARK_GREY)
+            drawtext('Score: '+ str(coin.score)+' ', 0, 10)
+            drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             keys = pygame.key.get_pressed()
 
             for c in coin.coin:
@@ -367,6 +379,8 @@ class main:
 
         if currentScreen == 'level_3':
             screen.fill(DARK_GREY)
+            drawtext('Score: '+ str(coin.score)+' ', 0, 10)
+            drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             keys = pygame.key.get_pressed()
                     
             for c in coin.coin:
