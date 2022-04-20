@@ -65,7 +65,6 @@ class main:
         if scroll_right == True:
             scroll += 5
 
-
         # BUTTON CREATION FUNCTION #
         def createButton(text, x, y):
             smallfont = pygame.font.SysFont('Corbel',20)
@@ -77,7 +76,19 @@ class main:
                 pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
             #add text (centered on the button)
             screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2)) 
-            
+        
+        # PAUSE MENU #
+        def pause():
+            window = pygame.Surface(SCREEN_SIZE)
+            window.set_colorkey(DARK_GREY)
+            window.set_alpha(200)
+            smallfont = pygame.font.SysFont('Corbel',50)
+            pauseText = smallfont.render('PAUSED', True, WHITE)
+            # PAUSE WHITE WINDOW
+            screen.blit(window, (0, 0))
+            # PAUSE TEXT
+            screen.blit(pauseText, (350-pauseText.get_width()/2, 250-pauseText.get_height()/2))
+
 ############################ MAIN MENU ################################
 
         if currentScreen == 'mainMenu':
@@ -236,6 +247,13 @@ class main:
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
+            coin.score += coin.collect(player.player_x,player.player_y)
+            if coin.end(player.player_x, player.player_y)==TRUE:
+                currentScreen='mainMenu'
+                player.player_x=0
+                player.player_y=0
+            platform.makePlatform(screen,platform.level1,GREEN)
+
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
@@ -246,23 +264,7 @@ class main:
                 player.player_speed = fall[1]
                 player.ground = fall[2]
             else:
-                window = pygame.Surface(SCREEN_SIZE)
-                window.set_colorkey(WHITE)
-                window.set_alpha(10)
-                smallfont = pygame.font.SysFont('Corbel',50)
-                pauseText = smallfont.render('PAUSED', True, WHITE)
-                # PAUSE WHITE WINDOW
-                #screen.blit(window, (350, 250))
-                # PAUSE TEXT
-                screen.blit(pauseText, (350-pauseText.get_width()/2, 250-pauseText.get_height()/2))
-
-            coin.score += coin.collect(player.player_x,player.player_y)
-            # End Goal
-            if coin.end(player.player_x, player.player_y)==TRUE:
-                currentScreen='mainMenu'
-                player.player_x=0
-                player.player_y=0
-            platform.makePlatform(screen,platform.level1,GREEN)
+                pause()
             pygame.display.flip()
         
 ############################# LEVEL 2 #################################
@@ -276,6 +278,12 @@ class main:
             
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
+            
+            coin.score += coin.collect(player.player_x,player.player_y)
+            # End Goal
+            if coin.end(player.player_x, player.player_y)==TRUE:
+                currentScreen='mainMenu'
+            platform.makePlatform(screen,platform.level2,GREEN)
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
@@ -287,21 +295,7 @@ class main:
                 player.player_speed = fall[1]
                 player.ground = fall[2]
             else:
-                window = pygame.Surface(SCREEN_SIZE)
-                window.set_colorkey(WHITE)
-                window.set_alpha(10)
-                smallfont = pygame.font.SysFont('Corbel',50)
-                pauseText = smallfont.render('PAUSED', True, WHITE)
-                # PAUSE WHITE WINDOW
-                #screen.blit(window, (350, 250))
-                # PAUSE TEXT
-                screen.blit(pauseText, (350-pauseText.get_width()/2, 250-pauseText.get_height()/2))
-
-            coin.score += coin.collect(player.player_x,player.player_y)
-            # End Goal
-            if coin.end(player.player_x, player.player_y)==TRUE:
-                currentScreen='mainMenu'
-            platform.makePlatform(screen,platform.level2,GREEN)
+                pause()
             pygame.display.flip()
 
 ############################# LEVEL 3 #################################
@@ -316,6 +310,12 @@ class main:
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
+            coin.score += coin.collect(player.player_x,player.player_y)
+            # End Goal
+            if coin.end(player.player_x, player.player_y)==TRUE:
+                currentScreen='mainMenu' 
+            platform.makePlatform(screen,platform.level3,GREEN)
+
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
@@ -326,22 +326,9 @@ class main:
                 player.player_speed = fall[1]
                 player.ground = fall[2]
             else:
-                window = pygame.Surface(SCREEN_SIZE)
-                window.set_colorkey(WHITE)
-                window.set_alpha(10)
-                smallfont = pygame.font.SysFont('Corbel',50)
-                pauseText = smallfont.render('PAUSED', True, WHITE)
-                # PAUSE WHITE WINDOW
-                #screen.blit(window, (350, 250))
-                # PAUSE TEXT
-                screen.blit(pauseText, (350-pauseText.get_width()/2, 250-pauseText.get_height()/2))
-
-            coin.score += coin.collect(player.player_x,player.player_y)
-            # End Goal
-            if coin.end(player.player_x, player.player_y)==TRUE:
-                currentScreen='mainMenu' 
-            platform.makePlatform(screen,platform.level3,GREEN)
+                pause()
             pygame.display.flip()
+
         #Check if player falls off map and loses life
         if player.player_y>500:
             if player.player_life>0:
@@ -350,7 +337,8 @@ class main:
                player.player_y=0
             if player.player_life<=0:
                 player.player_life=3
-                currentScreen = 'mainMenu' 
+                currentScreen = 'mainMenu'
+
         for ev in pygame.event.get(): 
             if ev.type == pygame.QUIT:
                 run = False
