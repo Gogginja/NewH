@@ -44,6 +44,55 @@ class main:
         for x in range(4):
             screen.blit(sky, ((x * width) - (scroll * speed),0))
 
+    # BUTTON CREATION FUNCTION #
+    def createButton(text, x, y):
+        smallfont = pygame.font.SysFont('Corbel',20)
+        buttonText = smallfont.render(text, True, WHITE)
+        mouse = pygame.mouse.get_pos() 
+        if (x <= mouse[0] <= x+140) and (y <= mouse[1] <= y+40): 
+            pygame.draw.rect(screen,(255,255,255),[x,y,140,40]) 
+        else: 
+            pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
+        #add text (centered on the button)
+        screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2))
+
+    # PAUSE MENU #
+    def pause():
+            global currentScreen,paused,mouse, run
+            window = pygame.Surface(SCREEN_SIZE)
+            window.set_colorkey(DARK_GREY)
+            window.set_alpha(200)
+            smallfont = pygame.font.SysFont('Corbel',50)
+            pauseText = smallfont.render('PAUSED', True, WHITE)
+            # PAUSE WHITE WINDOW
+            screen.blit(window, (0, 0))
+            # PAUSE TEXT
+            screen.blit(pauseText, (350-pauseText.get_width()/2, 175-pauseText.get_height()))
+
+            mouse = pygame.mouse.get_pos() 
+            resumePos = [width/2-70, height/2.5]
+            mainMenuPos = [width/2-70, height/2]
+            quitPost = [width/2-70, height/1.65]
+            
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                if ev.type == pygame.KEYDOWN:
+                    if ev.key == pygame.K_TAB:
+                        paused = not paused
+                # If mouse clicks:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    # Resume
+                    if (resumePos[0] <= mouse[0] <= resumePos[0]+140) and (resumePos[1] <= mouse[1] <= resumePos[1]+40): 
+                        paused = False
+                    # Main Menu
+                    elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40): 
+                        currentScreen = 'mainMenu'
+                        paused = False
+                    # Quit
+                    elif (quitPost[0] <= mouse[0] <= quitPost[0]+140) and (quitPost[1] <= mouse[1] <= quitPost[1]+40): 
+                        pygame.quit()
+                if ev.type == pygame.QUIT:
+                    run = False
 
 # MAIN GAME LOOP #
     while run:
@@ -65,18 +114,6 @@ class main:
             scroll -= 5
         if scroll_right == True:
             scroll += 5
-
-        # BUTTON CREATION FUNCTION #
-        def createButton(text, x, y):
-            smallfont = pygame.font.SysFont('Corbel',20)
-            buttonText = smallfont.render(text, True, WHITE)
-            mouse = pygame.mouse.get_pos() 
-            if (x <= mouse[0] <= x+140) and (y <= mouse[1] <= y+40): 
-                pygame.draw.rect(screen,(255,255,255),[x,y,140,40]) 
-            else: 
-                pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
-            #add text (centered on the button)
-            screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2)) 
 
 ############################ MAIN MENU ################################
 
@@ -338,43 +375,6 @@ class main:
                 createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
                 createButton('QUIT', quitPost[0], quitPost[1])
             pygame.display.flip()
-
-        def pause():
-            global currentScreen,paused,mouse, run
-            window = pygame.Surface(SCREEN_SIZE)
-            window.set_colorkey(DARK_GREY)
-            window.set_alpha(200)
-            smallfont = pygame.font.SysFont('Corbel',50)
-            pauseText = smallfont.render('PAUSED', True, WHITE)
-            # PAUSE WHITE WINDOW
-            screen.blit(window, (0, 0))
-            # PAUSE TEXT
-            screen.blit(pauseText, (350-pauseText.get_width()/2, 175-pauseText.get_height()))
-
-            mouse = pygame.mouse.get_pos() 
-            resumePos = [width/2-70, height/2.5]
-            mainMenuPos = [width/2-70, height/2]
-            quitPost = [width/2-70, height/1.65]
-            
-            # EVENT HANDLER #
-            for ev in pygame.event.get(): 
-                if ev.type == pygame.KEYDOWN:
-                    if ev.key == pygame.K_TAB:
-                        paused = not paused
-                # If mouse clicks:
-                if ev.type == pygame.MOUSEBUTTONDOWN: 
-                    # Resume
-                    if (resumePos[0] <= mouse[0] <= resumePos[0]+140) and (resumePos[1] <= mouse[1] <= resumePos[1]+40): 
-                        paused = False
-                    # Main Menu
-                    elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40): 
-                        currentScreen = 'mainMenu'
-                        paused = False
-                    # Quit
-                    elif (quitPost[0] <= mouse[0] <= quitPost[0]+140) and (quitPost[1] <= mouse[1] <= quitPost[1]+40): 
-                        pygame.quit()
-                if ev.type == pygame.QUIT:
-                    run = False
 
         #Check if player falls off map and loses life
         if player.player_y>500:
