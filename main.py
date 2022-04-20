@@ -199,29 +199,16 @@ class main:
 
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
-            
-            # ANIMATION HANDLER
-            deb += 1
-            # Every 10 frames, update the animation to the next frame
-            if deb == 15:
-                # if idle
-                if player.movement == 'standing':
-                    player.current_index += 1
-                    if player.current_index == len(player.idle_anim):
-                        player.current_index = 0
-                    player.current_image = player.idle_anim[player.current_index]
-            elif deb > 15:
-                deb = 0
 
             pygame.draw.rect(screen, coin.RED, coin.goal)
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
-                player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
-                                                        player.player_width, player.player_height, platform.level1)
-                fall = player.movementVertical(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)
+                player.player_x = player.movement(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)[0]
+                fall = player.movement(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)[1]
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
@@ -250,29 +237,16 @@ class main:
 
             for c in coin.coin:
                 screen.blit(coin.coin_image, (c[0], c[1]))
-
-            # ANIMATION HANDLER
-            deb += 1
-            # Every 10 frames, update the animation to the next frame
-            if deb == 15:
-                # if idle
-                if player.movement == 'standing':
-                    player.current_index += 1
-                    if player.current_index == len(player.idle_anim):
-                        player.current_index = 0
-                    player.current_image = player.idle_anim[player.current_index]
-            elif deb > 15:
-                deb = 0
             
             pygame.draw.rect(screen, coin.RED, coin.goal)
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
-                player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
-                                                        player.player_width, player.player_height, platform.level2)
-                fall = player.movementVertical(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)
+                player.player_x = player.movement(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)[0]
+                fall = player.movement(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)[1]
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
@@ -293,7 +267,7 @@ class main:
             platform.makePlatform(screen,platform.level2,GREEN)
             pygame.display.flip()
 
-############################# LEVEL 2 #################################
+############################# LEVEL 3 #################################
 
         if currentScreen == 'level_3':
             screen.fill(DARK_GREY)
@@ -303,14 +277,14 @@ class main:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
             pygame.draw.rect(screen, coin.RED, coin.goal)
-            screen.blit(player.player_image, (player.player_x, player.player_y))
+            screen.blit(player.current_image, (player.player_x, player.player_y))
 
             # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
             if paused == False:
-                player.player_x = player.movementHorizantal(keys, player.player_x, player.player_y, 
-                                                        player.player_width, player.player_height, platform.level3)
-                fall = player.movementVertical(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)
+                player.player_x = player.movement(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)[0]
+                fall = player.movement(keys, player.player_x, player.player_y, 
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)[1]
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
