@@ -409,6 +409,7 @@ class main:
                player.player_life-=1
                player.player_x=0
                player.player_y=0
+               player.player_speed = 0
             if player.player_life<=0:
                 player.player_life=3
                 currentScreen = 'mainMenu'
