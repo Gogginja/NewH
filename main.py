@@ -478,7 +478,7 @@ class main:
                         canMove = True
                     # Level 1
                     elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
-                        pygame.quit()
+                        run = False
 
             # BUTTON CREATION #
             createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
@@ -489,7 +489,7 @@ class main:
             player.player_life -= 1
             player.player_x = 0
             player.player_y = 0
-            player.state = 'died'
+            player.state = 'won'
             previousScreen = currentScreen
             currentScreen = 'deathScreen'
 

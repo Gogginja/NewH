@@ -34,6 +34,8 @@ def end(x, y):
                               player.player_width, player.player_height)
     for g in goal:
             if g.colliderect(player_rect):
+                player.canMove = False
+                player.state = 'won'
                 return TRUE
             else:
                 return FALSE
