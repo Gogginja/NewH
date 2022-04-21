@@ -27,6 +27,7 @@ class main:
     
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
     currentScreen = 'mainMenu'
+    previousScreen = ''
     paused =        False
     run =           TRUE
     deb = 0
@@ -68,6 +69,7 @@ class main:
         text_rectangle = text.get_rect()
         text_rectangle.topleft = (x, y)
         screen.blit(text, text_rectangle)
+
     # PAUSE MENU #
     def pause():
             global currentScreen,paused,mouse, run
@@ -257,16 +259,19 @@ class main:
                         currentScreen = 'mainMenu'
                     # Level 1
                     elif (level1Pos[0] <= mouse[0] <= level1Pos[0]+140) and (level1Pos[1] <= mouse[1] <= level1Pos[1]+40):
+                        player.canMove = True
                         currentScreen = 'level_1' 
                     # Level 2
                     elif (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
                         if not platform.locked2:
+                            player.canMove = True
                             currentScreen = 'level_2'
                         else:
                             createText('LOCKED', 350, 115)
                     # Level 3
                     elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
                         if not platform.locked3:
+                            player.canMove = True
                             currentScreen = 'level_3'
                         else:
                             createText('LOCKED', 350, 115)
@@ -417,16 +422,45 @@ class main:
                 createButton('QUIT', quitPost[0], quitPost[1])
             pygame.display.flip()
 
+############################# DEATH MENU #################################
+
+        if currentScreen == 'deathScreen':
+            respawnPos = [width/2-70, height/2]
+            mainMenuPos = [width/2-70, height/1.65]
+            window = pygame.Surface((700, 500))
+            window.set_colorkey((10,10,10))
+            smallfont = pygame.font.SysFont('Corbel',50)
+            diedText = smallfont.render('YOU DIED', True, (255,255,255))
+            
+            screen.blit(window, (0, 0))
+            screen.blit(diedText, (350-diedText.get_width()/2, 175-diedText.get_height()))
+            player.animate()
+            screen.blit(player.current_image, (340, 200))
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                # If mouse clicks:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    # Back
+                    if (respawnPos[0] <= mouse[0] <= respawnPos[0]+140) and (respawnPos[1] <= mouse[1] <= respawnPos[1]+40):
+                        currentScreen = previousScreen
+                        canMove = True
+                    # Level 1
+                    elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
+                        currentScreen = 'mainMenu' 
+
+            # BUTTON CREATION #
+            createButton('RESPAWN', respawnPos[0], respawnPos[1]) 
+            createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1])
+
         #Check if player falls off map and loses life
         if player.player_y>500:
-            if player.player_life>0:
-               player.player_life-=1
-               player.player_x=0
-               player.player_y=0
-               player.player_speed = 0
-            if player.player_life<=0:
-                player.player_life=3
-                currentScreen = 'mainMenu'
+            player.player_life -= 1
+            player.player_x = 0
+            player.player_y = 0
+            player.state = 'died'
+            previousScreen = currentScreen
+            currentScreen = 'deathScreen'
 
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
