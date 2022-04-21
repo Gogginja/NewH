@@ -5,7 +5,7 @@ import coin
 
 class main:
     # GLOBAL VARIABLES #
-    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,game_state,screenList,currentScreen,paused
+    global SCREEN_SIZE,BACKGROUND_COLOR,DARK_GREY,GREEN,WHITE,DARK,screen,width,height,clock,screenList,currentScreen,paused,devMenu
     SCREEN_SIZE =   (700, 500)
     MENU_COLOR =    (50, 50, 50)
     DARK_GREY =     (50, 50, 50)
@@ -18,8 +18,8 @@ class main:
     plr =           player.current_image
 
     clock =         pygame.time.Clock()
-    game_state =    'play'
-    
+    devMenu =       False
+
     screenList =    ['mainMenu', 'levelSelect', 'settings', 'settings_audio', 'settings_gameplay', 'settings_video', 'level_1']
     currentScreen = 'mainMenu'
     previousScreen = ''
@@ -490,12 +490,17 @@ class main:
             createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
             createButton('QUIT', quitPos[0], quitPos[1])
 
+############################# DEV MENU #################################
+
+        if devMenu:
+            drawtext('State: '+ str(player.state)+' ', 200, 10)
+
         #Check if player falls off map and loses life
         if player.player_y>500:
             player.player_life -= 1
             player.player_x = 0
             player.player_y = 0
-            player.state = 'won'
+            player.state = 'died'
             previousScreen = currentScreen
             currentScreen = 'deathScreen'
 
@@ -505,6 +510,8 @@ class main:
             if ev.type == pygame.KEYDOWN:
                     if ev.key == pygame.K_TAB:
                         paused = not paused
+                    elif ev.key == pygame.K_F9:
+                        devMenu = not devMenu
 
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
         pygame.display.update()

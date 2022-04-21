@@ -115,7 +115,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
         # W = Jump
         if keys[pygame.K_w] and ground == True:
             state = 'jumping'
-            player_speed = -5
+            player_speed = -8
             ground = False
         # W + A = Left Jump
         if keys[pygame.K_w] and keys[pygame.K_a]:
@@ -160,9 +160,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
             #  return new_player_x
         return [new_player_x, fall]
     else:
-        state = 'died'
-        current_image = idle_anim[0]
-        return [new_player_x, [player_y,player_speed,ground]]
+        return [player_x, [player_y,player_speed,ground]]
 
 def playAnim(animList):
         global state,current_image,current_index,deb
@@ -250,7 +248,7 @@ def animate():
     elif state == 'won':
         current_image = win_anim[0]
         frameNum += 1
-        if frameNum < 150:
+        if frameNum < 25*len(win_anim):
             deb += 1
             # Every 5 frames, update the animation to the next frame
             if deb == 25:
