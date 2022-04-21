@@ -104,18 +104,18 @@ def movement(keys, x, y, w, h, speed, ground, level):
         if keys[pygame.K_a] and state != 'crouching':
             state = 'run'
             direction = False
-            new_player_x -= 2
+            new_player_x -= 3
         # d=right
         elif keys[pygame.K_d] and state != 'crouching':
             state = 'run'
             direction = True
-            new_player_x += 2
+            new_player_x += 3
         elif not (keys[pygame.K_a] or keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_w]):
             state = 'idle'
         # W = Jump
         if keys[pygame.K_w] and ground == True:
             state = 'jumping'
-            player_speed = -8
+            player_speed = -7
             ground = False
         # W + A = Left Jump
         if keys[pygame.K_w] and keys[pygame.K_a]:
@@ -132,7 +132,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
         # If player is falling
         if player_speed > 1:
             state = 'falling'
-        
+
         # COLLISION HANDLER
         new_player_rect = pygame.Rect(new_player_x, y, w, h)
         x_collision = False
@@ -156,8 +156,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
                     break
             if y_collision is False:
                 fall = [new_player_y,player_speed,ground]
-            #if x_collision is False:
-            #  return new_player_x
+
         return [new_player_x, fall]
     else:
         return [player_x, [player_y,player_speed,ground]]
