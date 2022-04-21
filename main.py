@@ -1,8 +1,3 @@
-from pickle import TRUE
-from re import X
-from threading import local
-from turtle import _Screen
-
 import pygame
 import platform
 import player
@@ -29,7 +24,7 @@ class main:
     currentScreen = 'mainMenu'
     previousScreen = ''
     paused =        False
-    run =           TRUE
+    run =           True
     deb = 0
 
     skyTest = pygame.image.load('Image/textures/skybox.png')
@@ -65,7 +60,7 @@ class main:
 
     def drawtext(t, x, y):
         font = pygame.font.Font(pygame.font.get_default_font(), 24)
-        text = font.render(t, TRUE, GREEN, DARK_GREY)
+        text = font.render(t, True, GREEN, DARK_GREY)
         text_rectangle = text.get_rect()
         text_rectangle.topleft = (x, y)
         screen.blit(text, text_rectangle)
@@ -260,12 +255,18 @@ class main:
                     # Level 1
                     elif (level1Pos[0] <= mouse[0] <= level1Pos[0]+140) and (level1Pos[1] <= mouse[1] <= level1Pos[1]+40):
                         player.canMove = True
-                        currentScreen = 'level_1' 
+                        currentScreen = 'level_1'
+                        player.player_x = 0
+                        player.player_y = 0
+                        player.player_speed = 0
                     # Level 2
                     elif (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
                         if not platform.locked2:
                             player.canMove = True
                             currentScreen = 'level_2'
+                            player.player_x = 0
+                            player.player_y = 0
+                            player.player_speed = 0
                         else:
                             createText('LOCKED', 350, 115)
                     # Level 3
@@ -273,6 +274,9 @@ class main:
                         if not platform.locked3:
                             player.canMove = True
                             currentScreen = 'level_3'
+                            player.player_x = 0
+                            player.player_y = 0
+                            player.player_speed = 0
                         else:
                             createText('LOCKED', 350, 115)
 
@@ -310,7 +314,7 @@ class main:
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
             coin.score += coin.collect(player.player_x,player.player_y)
-            if coin.end(player.player_x, player.player_y)==TRUE:
+            if coin.end(player.player_x, player.player_y):
                 platform.locked2 = False
                 currentScreen='winMenu'
                 player.player_x=0
@@ -350,10 +354,10 @@ class main:
             
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
-
+            
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
-            if coin.end(player.player_x, player.player_y)==TRUE:
+            if coin.end(player.player_x, player.player_y):
                 currentScreen='winMenu'
                 platform.locked3 = False
                 player.player_x=0
@@ -396,7 +400,7 @@ class main:
 
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
-            if coin.end(player.player_x, player.player_y)==TRUE:
+            if coin.end(player.player_x, player.player_y):
                 currentScreen='winMenu'
                 player.player_x=0
                 player.player_y=0
@@ -425,6 +429,9 @@ class main:
 ############################# DEATH MENU #################################
 
         if currentScreen == 'deathScreen':
+            player.player_x = 0
+            player.player_y = 0
+            player.player_speed = 0
             respawnPos = [width/2-70, height/2]
             mainMenuPos = [width/2-70, height/1.65]
             window = pygame.Surface((700, 500))
@@ -434,7 +441,6 @@ class main:
             
             screen.blit(window, (0, 0))
             screen.blit(diedText, (350-diedText.get_width()/2, 175-diedText.get_height()))
-            player.animate()
             screen.blit(player.current_image, (340, 200))
 
             # EVENT HANDLER #

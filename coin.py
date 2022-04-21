@@ -1,6 +1,6 @@
-from pickle import FALSE, TRUE
 import pygame
 import player
+
 coin_image = pygame.image.load('Image/coin11.png')
 coin = [
     pygame.Rect(600, 150, 22, 22),
@@ -36,8 +36,8 @@ def end(x, y):
             if g.colliderect(player_rect):
                 player.canMove = False
                 player.state = 'won'
-                return TRUE
+                return True
             else:
-                return FALSE
+                return False
     else:
-        return FALSE
+        return False

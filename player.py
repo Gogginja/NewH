@@ -1,6 +1,3 @@
-from asyncio.windows_events import NULL
-from hmac import new
-from pickle import FALSE, TRUE
 import platform
 from turtle import speed
 import pygame
@@ -116,10 +113,10 @@ def movement(keys, x, y, w, h, speed, ground, level):
         elif not (keys[pygame.K_a] or keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_w]):
             state = 'idle'
         # W = Jump
-        if keys[pygame.K_w] and ground == TRUE:
+        if keys[pygame.K_w] and ground == True:
             state = 'jumping'
             player_speed = -5
-            ground = FALSE
+            ground = False
         # W + A = Left Jump
         if keys[pygame.K_w] and keys[pygame.K_a]:
             state = 'jumping-left'
@@ -128,7 +125,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
         elif keys[pygame.K_w] and keys[pygame.K_d]:
             state = 'jumping-right'
             direction = True
-        elif keys[pygame.K_s] and ground == TRUE:
+        elif keys[pygame.K_s] and ground == True:
             state = 'crouching'
             player_speed = 0
 
@@ -142,7 +139,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
         # ..check against every playform
         for p in level:
             if p.colliderect(new_player_rect):
-                x_collision = TRUE
+                x_collision = True
                 new_player_x = x
                 break
 
@@ -154,7 +151,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
                 if p[1] > new_player_y:
                     # stick player to platform
                     new_player_y = p[1] - player_height
-                    ground = TRUE
+                    ground = True
                     fall = [new_player_y, player_speed, ground]
                     break
             if y_collision is False:
