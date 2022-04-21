@@ -36,6 +36,12 @@ fall_anim = [
     pygame.image.load('Sprites/fall/fall-00.png'),
     pygame.image.load('Sprites/fall/fall-01.png')
 ]
+crouch_anim = [
+    pygame.image.load('Sprites/crouch/crouch-00.png'),
+    pygame.image.load('Sprites/crouch/crouch-01.png'),
+    pygame.image.load('Sprites/crouch/crouch-02.png'),
+    pygame.image.load('Sprites/crouch/crouch-03.png')
+]
 death_anim = [
     pygame.image.load('Sprites/die/die-00.png'),
     pygame.image.load('Sprites/die/die-01.png'),
@@ -44,6 +50,25 @@ death_anim = [
     pygame.image.load('Sprites/die/die-04.png'),
     pygame.image.load('Sprites/die/die-05.png'),
     pygame.image.load('Sprites/die/die-06.png')
+]
+win_anim = [
+    pygame.image.load('Sprites/win/attack1-00.png'),
+    pygame.image.load('Sprites/win/attack1-01.png'),
+    pygame.image.load('Sprites/win/attack1-02.png'),
+    pygame.image.load('Sprites/win/attack1-03.png'),
+    pygame.image.load('Sprites/win/attack1-04.png'),
+    pygame.image.load('Sprites/win/attack2-00.png'),
+    pygame.image.load('Sprites/win/attack2-01.png'),
+    pygame.image.load('Sprites/win/attack2-02.png'),
+    pygame.image.load('Sprites/win/attack2-03.png'),
+    pygame.image.load('Sprites/win/attack2-04.png'),
+    pygame.image.load('Sprites/win/attack2-05.png'),
+    pygame.image.load('Sprites/win/attack3-00.png'),
+    pygame.image.load('Sprites/win/attack3-01.png'),
+    pygame.image.load('Sprites/win/attack3-02.png'),
+    pygame.image.load('Sprites/win/attack3-03.png'),
+    pygame.image.load('Sprites/win/attack3-04.png'),
+    pygame.image.load('Sprites/win/attack3-05.png')
 ]
 
 current_index = 0
@@ -79,12 +104,12 @@ def movement(keys, x, y, w, h, speed, ground, level):
                                         w, h)
         y_collision = False
         # a=left
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] and state != 'crouching':
             state = 'run'
             direction = False
             new_player_x -= 2
         # d=right
-        elif keys[pygame.K_d]:
+        elif keys[pygame.K_d] and state != 'crouching':
             state = 'run'
             direction = True
             new_player_x += 2
@@ -103,7 +128,9 @@ def movement(keys, x, y, w, h, speed, ground, level):
         elif keys[pygame.K_w] and keys[pygame.K_d]:
             state = 'jumping-right'
             direction = True
-        ground = FALSE
+        elif keys[pygame.K_s] and ground == TRUE:
+            state = 'crouching'
+            player_speed = 0
 
         # If player is falling
         if player_speed > 1:
@@ -160,7 +187,6 @@ def animate():
         deb += 1
         # Every 5 frames, update the animation to the next frame
         if deb == 5:
-            # if idle
             playAnim(idle_anim)
         elif deb > 15:
             deb = 0
@@ -168,7 +194,6 @@ def animate():
         deb += 1
         # Every 2 frames, update the animation to the next frame
         if deb == 2:
-            # if idle
             playAnim(run_anim)
         elif deb > 15:
             deb = 0
@@ -176,7 +201,6 @@ def animate():
         deb += 1
         # Every 2 frames, update the animation to the next frame
         if deb == 2:
-            # if idle
             playAnim(jump_anim)
         elif deb > 15:
             deb = 0
@@ -184,7 +208,6 @@ def animate():
         deb += 1
         # Every 2 frames, update the animation to the next frame
         if deb == 2:
-            # if idle
             playAnim(cornerJump_anim)
         elif deb > 15:
             deb = 0
@@ -192,7 +215,6 @@ def animate():
         deb += 1
         # Every 2 frames, update the animation to the next frame
         if deb == 2:
-            # if idle
             playAnim(cornerJump_anim)
         elif deb > 15:
             deb = 0
@@ -200,18 +222,42 @@ def animate():
         deb += 1
         # Every 5 frames, update the animation to the next frame
         if deb == 5:
-            # if idle
             playAnim(fall_anim)
         elif deb > 15:
             deb = 0
+    elif state == 'crouching':
+        deb += 1
+        # Every 5 frames, update the animation to the next frame
+        if deb == 5:
+            playAnim(crouch_anim)
+        elif deb > 15:
+            deb = 0
+    elif state == 'crouching':
+        frameNum += 1
+        if frameNum < 150:
+            deb += 1
+            if deb == 25:
+                playAnim(crouch_anim)
+            elif deb > 25:
+                deb = 0
     elif state == 'died':
+        current_image = idle_anim[0]
         frameNum += 1
         if frameNum < 150:
             deb += 1
             # Every 5 frames, update the animation to the next frame
             if deb == 25:
-                # if idle
                 playAnim(death_anim)
+            elif deb > 25:
+                deb = 0
+    elif state == 'won':
+        current_image = win_anim[0]
+        frameNum += 1
+        if frameNum < 150:
+            deb += 1
+            # Every 5 frames, update the animation to the next frame
+            if deb == 25:
+                playAnim(win_anim)
             elif deb > 25:
                 deb = 0
 

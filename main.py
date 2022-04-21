@@ -312,7 +312,7 @@ class main:
             coin.score += coin.collect(player.player_x,player.player_y)
             if coin.end(player.player_x, player.player_y)==TRUE:
                 platform.locked2 = False
-                currentScreen='mainMenu'
+                currentScreen='winMenu'
                 player.player_x=0
                 player.player_y=0
             platform.makePlatform(screen,platform.level1,GREEN)
@@ -354,7 +354,7 @@ class main:
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
             if coin.end(player.player_x, player.player_y)==TRUE:
-                currentScreen='mainMenu'
+                currentScreen='winMenu'
                 platform.locked3 = False
                 player.player_x=0
                 player.player_y=0
@@ -397,7 +397,7 @@ class main:
             coin.score += coin.collect(player.player_x,player.player_y)
             # End Goal
             if coin.end(player.player_x, player.player_y)==TRUE:
-                currentScreen='mainMenu'
+                currentScreen='winMenu'
                 player.player_x=0
                 player.player_y=0
             platform.makePlatform(screen,platform.level3,GREEN)
@@ -452,6 +452,37 @@ class main:
             # BUTTON CREATION #
             createButton('RESPAWN', respawnPos[0], respawnPos[1]) 
             createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1])
+
+############################# WIN MENU #################################
+
+        if currentScreen == 'winMenu':
+            mainMenuPos = [width/2-70, height/2]
+            quitPos = [width/2-70, height/1.65]
+            window = pygame.Surface((700, 500))
+            window.set_colorkey((10,10,10))
+            smallfont = pygame.font.SysFont('Corbel',50)
+            winText = smallfont.render('YOU WON!', True, (255,255,255))
+            
+            screen.blit(window, (0, 0))
+            screen.blit(winText, (350-winText.get_width()/2, 175-winText.get_height()))
+            player.animate()
+            screen.blit(player.current_image, (340, 200))
+
+            # EVENT HANDLER #
+            for ev in pygame.event.get(): 
+                # If mouse clicks:
+                if ev.type == pygame.MOUSEBUTTONDOWN: 
+                    # Back
+                    if (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
+                        currentScreen = 'mainMenu'
+                        canMove = True
+                    # Level 1
+                    elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
+                        pygame.quit()
+
+            # BUTTON CREATION #
+            createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
+            createButton('QUIT', quitPos[0], quitPos[1])
 
         #Check if player falls off map and loses life
         if player.player_y>500:
