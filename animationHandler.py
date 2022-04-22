@@ -1,7 +1,5 @@
-from asyncio.windows_events import NULL
 import pygame
-
-# DO NOT MESS WITH PLEASE <3
+import player
 
 run_anim = [
     pygame.image.load('Sprites/run/adventurer-run-00.png'),
@@ -34,71 +32,126 @@ fall_anim = [
     pygame.image.load('Sprites/fall/fall-00.png'),
     pygame.image.load('Sprites/fall/fall-01.png')
 ]
+crouch_anim = [
+    pygame.image.load('Sprites/crouch/crouch-00.png'),
+    pygame.image.load('Sprites/crouch/crouch-01.png'),
+    pygame.image.load('Sprites/crouch/crouch-02.png'),
+    pygame.image.load('Sprites/crouch/crouch-03.png')
+]
+death_anim = [
+    pygame.image.load('Sprites/die/die-00.png'),
+    pygame.image.load('Sprites/die/die-01.png'),
+    pygame.image.load('Sprites/die/die-02.png'),
+    pygame.image.load('Sprites/die/die-03.png'),
+    pygame.image.load('Sprites/die/die-04.png'),
+    pygame.image.load('Sprites/die/die-05.png'),
+    pygame.image.load('Sprites/die/die-06.png')
+]
+win_anim = [
+    pygame.image.load('Sprites/win/attack1-00.png'),
+    pygame.image.load('Sprites/win/attack1-01.png'),
+    pygame.image.load('Sprites/win/attack1-02.png'),
+    pygame.image.load('Sprites/win/attack1-03.png'),
+    pygame.image.load('Sprites/win/attack1-04.png'),
+    pygame.image.load('Sprites/win/attack2-00.png'),
+    pygame.image.load('Sprites/win/attack2-01.png'),
+    pygame.image.load('Sprites/win/attack2-02.png'),
+    pygame.image.load('Sprites/win/attack2-03.png'),
+    pygame.image.load('Sprites/win/attack2-04.png'),
+    pygame.image.load('Sprites/win/attack2-05.png'),
+    pygame.image.load('Sprites/win/attack3-00.png'),
+    pygame.image.load('Sprites/win/attack3-01.png'),
+    pygame.image.load('Sprites/win/attack3-02.png'),
+    pygame.image.load('Sprites/win/attack3-03.png'),
+    pygame.image.load('Sprites/win/attack3-04.png'),
+    pygame.image.load('Sprites/win/attack3-05.png')
+]
 
-def animate(state,direction,current_index,deb):
-    current_index = 0
-    # True = right : False = left
-    direction = True
-    deb = 0
-
-    def playAnim(animList):
-        nonlocal state,direction,current_index,deb
-        if current_index > len(animList)-1:
-            current_index = 0
-        current_index += 1
-        if current_index == len(animList):
-            current_index = 0
-        if direction:
-            return animList[current_index]
+def playAnim(animList):
+        if player.current_index > len(animList)-1:
+            player.current_index = 0
+        player.current_index += 1
+        if player.current_index == len(animList):
+            player.current_index = 0
+        if player.direction:
+            player.current_image = animList[player.current_index]
         else:
-            imgCopy = animList[current_index].copy()
-            return pygame.transform.flip(imgCopy, True, False)
+            imgCopy = animList[player.current_index].copy()
+            player.current_image = pygame.transform.flip(imgCopy, True, False)
 
-    if state == 'idle':
-        deb += 1
+def animate():
+    if player.state == 'idle':
+        player.deb += 1
         # Every 5 frames, update the animation to the next frame
-        if deb == 5:
-            # if idle
+        if player.deb == 5:
             playAnim(idle_anim)
-        elif deb > 5:
-            deb = 0
-    elif state == 'run':
-        deb += 1
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'run':
+        player.deb += 1
         # Every 2 frames, update the animation to the next frame
-        if deb == 1:
-            # if idle
+        if player.deb == 2:
             playAnim(run_anim)
-        elif deb > 2:
-            deb = 0
-    elif state == 'jumping':
-        deb += 1
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'jumping':
+        player.deb += 1
         # Every 2 frames, update the animation to the next frame
-        if deb == 2:
-            # if idle
+        if player.deb == 2:
             playAnim(jump_anim)
-        elif deb > 2:
-            deb = 0
-    elif state == 'jumping-left':
-        deb += 1
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'jumping-left':
+        player.deb += 1
         # Every 2 frames, update the animation to the next frame
-        if deb == 2:
-            # if idle
+        if player.deb == 2:
             playAnim(cornerJump_anim)
-        elif deb > 2:
-            deb = 0
-    elif state == 'jumping-right':
-        deb += 1
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'jumping-right':
+        player.deb += 1
         # Every 2 frames, update the animation to the next frame
-        if deb == 2:
-            # if idle
+        if player.deb == 2:
             playAnim(cornerJump_anim)
-        elif deb > 2:
-            deb = 0
-    elif state == 'falling':
-        deb += 1
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'falling':
+        player.deb += 1
         # Every 5 frames, update the animation to the next frame
-        if deb == 5:
-            # if idle
+        if player.deb == 5:
             playAnim(fall_anim)
-        elif deb > 5:
-            deb = 0
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'crouching':
+        player.deb += 1
+        # Every 5 frames, update the animation to the next frame
+        if player.deb == 5:
+            playAnim(crouch_anim)
+        elif player.deb > 15:
+            player.deb = 0
+    elif player.state == 'crouching':
+        player.frameNum += 1
+        if player.frameNum < 150:
+            player.deb += 1
+            if player.deb == 25:
+                playAnim(crouch_anim)
+            elif player.deb > 25:
+                player.deb = 0
+    elif player.state == 'died':
+        player.frameNum += 1
+        if player.frameNum < 150:
+            player.deb += 1
+            # Every 5 frames, update the animation to the next frame
+            if player.deb == 25:
+                playAnim(death_anim)
+            elif player.deb > 25:
+                player.deb = 0
+    elif player.state == 'won':
+        player.frameNum += 1
+        if player.frameNum < 250:
+            player.deb += 1
+            # Every 5 frames, update the animation to the next frame
+            if player.deb == 5:
+                playAnim(win_anim)
+            elif player.deb > 5:
+                player.deb = 0

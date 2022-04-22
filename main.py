@@ -2,6 +2,7 @@ import pygame
 import platform
 import player
 import coin
+import animationHandler
 
 class main:
     # GLOBAL VARIABLES #
@@ -444,6 +445,7 @@ class main:
             
             screen.blit(window, (0, 0))
             screen.blit(diedText, (350-diedText.get_width()/2, 175-diedText.get_height()))
+            animationHandler.animate()
             screen.blit(player.current_image, (340, 200))
 
             # EVENT HANDLER #
@@ -474,7 +476,7 @@ class main:
             
             screen.blit(window, (0, 0))
             screen.blit(winText, (350-winText.get_width()/2, 175-winText.get_height()))
-            player.animate()
+            animationHandler.animate()
             screen.blit(player.current_image, (340, 200))
 
             # EVENT HANDLER #
@@ -500,6 +502,8 @@ class main:
 
         #Check if player falls off map and loses life
         if player.player_y>500:
+            canMove = False
+            player.frameNum = 0
             player.player_life -= 1
             player.player_x = 0
             player.player_y = 0
