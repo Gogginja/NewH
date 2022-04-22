@@ -151,13 +151,16 @@ class main:
                     # Quit
                     elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40): 
                         pygame.quit()
-            
+            smallfont = pygame.font.SysFont('Corbel',100)
+            txt = smallfont.render('Star Dust', True, WHITE)
+            screen.blit(txt, (475-txt.get_width()/2, 250-txt.get_height()))
+
             # BUTTON CREATION #
             createButton('SELECT LEVEL', levelSelect[0], levelSelect[1]) 
             createButton('SETTINGS', settingsPos[0], settingsPos[1]) 
             createButton('QUIT', quitPos[0], quitPos[1]) 
 
-######################### SETTIGNS - MAIN #############################
+######################### SETTINGS - MAIN #############################
 
         if currentScreen == 'settings':
             # BUTTON SETTINGS #
@@ -524,5 +527,6 @@ class main:
                         devMenu = not devMenu
 
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
+        pygame.display.set_caption('Star Dust')
         pygame.display.update()
     pygame.quit()
