@@ -2,7 +2,15 @@ import pygame
 import player
 
 coin_image = pygame.image.load('Image/coin11.png')
-coin = [
+coin1 = [
+    pygame.Rect(600, 150, 22, 22),
+    pygame.Rect(200, 250, 22, 22)
+    ]
+coin2 = [
+    pygame.Rect(550, 150, 22, 22),
+    pygame.Rect(200, 350, 22, 22)
+    ]
+coin3 = [
     pygame.Rect(600, 150, 22, 22),
     pygame.Rect(200, 250, 22, 22)
     ]
@@ -12,7 +20,7 @@ goal = [
     ]
 score = 0
 
-def collect(x, y):
+def collect(x, y, coin):
     player_x = x
     player_y = y
     player_rect = pygame.Rect(player_x, player_y,

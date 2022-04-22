@@ -311,13 +311,13 @@ class main:
             #screen.fill(DARK_GREY)
             keys = pygame.key.get_pressed()
 
-            for c in coin.coin:
+            for c in coin.coin1:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
-            coin.score += coin.collect(player.player_x,player.player_y)
+            coin.score += coin.collect(player.player_x,player.player_y,coin.coin1)
             if coin.end(player.player_x, player.player_y):
                 platform.locked2 = False
                 currentScreen='winMenu'
@@ -353,13 +353,13 @@ class main:
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             keys = pygame.key.get_pressed()
 
-            for c in coin.coin:
+            for c in coin.coin2:
                 screen.blit(coin.coin_image, (c[0], c[1]))
             
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
             
-            coin.score += coin.collect(player.player_x,player.player_y)
+            coin.score += coin.collect(player.player_x,player.player_y,coin.coin2)
             # End Goal
             if coin.end(player.player_x, player.player_y):
                 currentScreen='winMenu'
@@ -396,13 +396,13 @@ class main:
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             keys = pygame.key.get_pressed()
                     
-            for c in coin.coin:
+            for c in coin.coin3:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
             pygame.draw.rect(screen, coin.RED, coin.goal[0])
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
-            coin.score += coin.collect(player.player_x,player.player_y)
+            coin.score += coin.collect(player.player_x,player.player_y,coin.coin3)
             # End Goal
             if coin.end(player.player_x, player.player_y):
                 currentScreen='winMenu'
