@@ -1,7 +1,7 @@
 import pygame
 import player
 
-coin_image = pygame.image.load('Image/coin11.png')
+coin_image = pygame.image.load('Image/textures/star.png')
 coin1 = [
     pygame.Rect(600, 150, 22, 22),
     pygame.Rect(200, 250, 22, 22)
