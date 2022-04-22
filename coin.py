@@ -15,8 +15,14 @@ coin3 = [
     pygame.Rect(200, 250, 22, 22)
     ]
 RED = (237, 12, 12)
-goal = [
+goal1 = [
     pygame.Rect(350, 0, 10, 30)
+    ]
+goal2 = [
+    pygame.Rect(350, 0, 10, 30)
+    ]
+goal3 = [
+    pygame.Rect(650, 0, 10, 30)
     ]
 score = 0
 
@@ -35,7 +41,7 @@ def collect(x, y, coin):
     else:
         return 0
         
-def end(x, y):
+def end(x, y, goal):
     player_x = x
     player_y = y
     player_rect = pygame.Rect(player_x, player_y,

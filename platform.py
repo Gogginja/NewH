@@ -46,9 +46,7 @@ level3 = [
     pygame.Rect(275, 350, 25, 25),
     pygame.Rect(300, 250, 500, 25),
     pygame.Rect(300, 350, 300, 25),
-    pygame.Rect(400, -50, 200, 300),
-    pygame.Rect(600, 45, 200, 100),
-    pygame.Rect(650, 350, 200, 25)
+    pygame.Rect(600, 50, 100, 200)
 ]
 locked3 = True
 
