@@ -24,8 +24,12 @@ level2 = [
     pygame.Rect(300, 100, 120, 20),
     pygame.Rect(300, 175, 120, 20),
     pygame.Rect(300, 250, 120, 20),
-    pygame.Rect(450, 125, 120, 20),
-    pygame.Rect(450, 200, 120, 20),
+    pygame.Rect(470, 125, 120, 20),
+    pygame.Rect(470, 200, 120, 20),
+    pygame.Rect(180, 400, 480, 20),
+    pygame.Rect(400, 350, 50, 50),
+    pygame.Rect(500, 300, 50, 100),
+    pygame.Rect(600, 350, 50, 50)
 ]
 locked2 = True
 
