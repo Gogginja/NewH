@@ -9,9 +9,15 @@ class TestPlatformer(unittest.TestCase):
     #test that player can jump up
     def test_jump(self):
         self.assertLess(platformer.getY(),420) 
-    #test player can collect all set coins
-    def test_coin(self):
+    #test player can collect all set coins up to level 1
+    def test_coinSome(self):
         self.assertEquals(platformer.getScore(), 2)
+    #test player can collect all set coins up to level 2
+    def test_coinAll(self):
+        self.assertEquals(platformer.getScore(), 4)
+    #test player can collect all set coins up to level 3
+    def test_coinAll(self):
+        self.assertEquals(platformer.getScore(), 6)
     #test if player can lose
     def test_lose(self):
         self.assertEquals(platformer.getState(), 'lose')

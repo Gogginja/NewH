@@ -19,6 +19,12 @@ player_width = 19
 player_height = 30
 ground = False
 
+def getLife():
+    return player_life
+
+def getState():
+    return state
+
 # player input
 def movement(keys, x, y, w, h, speed, ground, level):
     animationHandler.animate()

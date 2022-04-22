@@ -38,6 +38,12 @@ class main:
     scroll = 0
     scroll_speed = 1
 
+    def getPaused():
+        return paused
+
+    def getScreen():
+        return currentScreen
+
     #Draw a more detailed background
     def draw_bg(sky, scroll, speed):
         width = sky.get_width()
