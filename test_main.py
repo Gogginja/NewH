@@ -37,6 +37,15 @@ class TestMain(unittest.TestCase):
     #Tests to see if the game is in Level 3
     def test_level3Active(self):
         self.assertEquals(main.currentScreen, 'level_3')
+    #Tests to see if the game is in winMenu
+    def test_level3Active(self):
+        self.assertEquals(main.currentScreen, 'winMenu')
+    #Tests to see if the game is in deathMenu
+    def test_level3Active(self):
+        self.assertEquals(main.currentScreen, 'deathMenu')
+    #Tests to see if the game is in 
+    def test_level3Active(self):
+        self.assertEquals(main.devMenu, True)
 
 if __name__ == '__main__':
     unittest.main()

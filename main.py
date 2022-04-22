@@ -1,5 +1,5 @@
 import pygame
-import platform
+import platforms
 import player
 import coin
 import animationHandler
@@ -270,7 +270,7 @@ class main:
                     # Level 2
                     elif (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
                         # If level is locked:
-                        if not platform.locked2:
+                        if not platforms.locked2:
                             player.canMove = True
                             # Change to level 2
                             currentScreen = 'level_2'
@@ -284,7 +284,7 @@ class main:
                     # Level 3
                     elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
                         # If level is not locked:
-                        if not platform.locked3:
+                        if not platforms.locked3:
                             player.canMove = True
                             # Change to level 3
                             currentScreen = 'level_3'
@@ -301,12 +301,12 @@ class main:
             # Level 1
             if (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
                 # If level is locked
-                if platform.locked2:
+                if platforms.locked2:
                     createText('LOCKED', 350, 115)
             # Level 3
             elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
                 # If level is locked
-                if platform.locked3:
+                if platforms.locked3:
                     createText('LOCKED', 350, 115)
             
             # BUTTON CREATION #
@@ -339,23 +339,23 @@ class main:
             # If end goal is reached:
             if coin.end(player.player_x, player.player_y, coin.goal1):
                 # Unlock level 2
-                platform.locked2 = False
+                platforms.locked2 = False
                 # View the Win Menu
                 currentScreen='winMenu'
                 # Reset the player
                 player.player_x=0
                 player.player_y=0
-            # Generate the platforms
-            platform.makePlatform(screen,platform.level1,GREEN)
+            # Generate the platformss
+            platforms.makeplatforms(screen,platforms.level1,GREEN)
 
             # If game is paused
             if paused == False:
                 # Set the x coordinates of the player
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)[0]
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platforms.level1)[0]
                 # Calculate the fall data of the player
                 fall = player.movement(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)[1]
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platforms.level1)[1]
                 # Set y coordinates, speed, and ground toggle of the player
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
@@ -395,23 +395,23 @@ class main:
             # If end goal is reached:
             if coin.end(player.player_x, player.player_y, coin.goal2):
                 # Unlocked level 3
-                platform.locked3 = False
+                platforms.locked3 = False
                 # View the Win Menu
                 currentScreen='winMenu'
                 # Reset the player
                 player.player_x=0
                 player.player_y=0
-            # Generate the platforms
-            platform.makePlatform(screen,platform.level2,GREEN)
+            # Generate the platformss
+            platforms.makeplatforms(screen,platforms.level2,GREEN)
 
             # If game is paused:
             if paused == False:
                 # Set the x coordinates of the player
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)[0]
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platforms.level2)[0]
                 # Calculate the fall data of the player
                 fall = player.movement(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)[1]
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platforms.level2)[1]
                 # Set y coordinates, speed, and ground toggle of the player
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
@@ -454,17 +454,17 @@ class main:
                 # Reset the player
                 player.player_x=0
                 player.player_y=0
-            # Generate the platforms
-            platform.makePlatform(screen,platform.level3,GREEN)
+            # Generate the platformss
+            platforms.makeplatforms(screen,platforms.level3,GREEN)
 
             # If game is not paused:
             if paused == False:
                 # Set the x coordinates of the player
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)[0]
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platforms.level3)[0]
                 # Calculate the fall data of the player
                 fall = player.movement(keys, player.player_x, player.player_y, 
-                                        player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)[1]
+                                        player.player_width, player.player_height, player.player_speed, player.ground, platforms.level3)[1]
                 # Set y coordinates, speed, and ground toggle of the player
                 player.player_y = fall[0]
                 player.player_speed = fall[1]

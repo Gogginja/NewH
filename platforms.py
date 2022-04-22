@@ -1,4 +1,3 @@
-from pickle import TRUE
 import pygame
 
 # Level 1 Data
