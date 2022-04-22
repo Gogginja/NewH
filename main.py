@@ -33,6 +33,17 @@ class main:
     sky2 = pygame.image.load('Image/textures/skybox2.png')
     sky3 = pygame.image.load('Image/textures/skybox3.png')
 
+    scroll_left = False
+    scroll_right = False
+    scroll = 0
+    scroll_speed = 1
+
+    def getPaused():
+        return paused
+
+    def getScreen():
+        return currentScreen
+
     #Draw a more detailed background
     def draw_bg(sky):
         width = sky.get_width()
