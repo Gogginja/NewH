@@ -6,11 +6,23 @@ coin1 = [
     pygame.Rect(600, 150, 22, 22),
     pygame.Rect(200, 250, 22, 22)
     ]
+copy1 = [
+    pygame.Rect(600, 150, 22, 22),
+    pygame.Rect(200, 250, 22, 22)
+    ]
 coin2 = [
     pygame.Rect(550, 150, 22, 22),
     pygame.Rect(200, 350, 22, 22)
     ]
+copy2 = [
+    pygame.Rect(600, 150, 22, 22),
+    pygame.Rect(200, 250, 22, 22)
+    ]
 coin3 = [
+    pygame.Rect(450, 300, 22, 22),
+    pygame.Rect(200, 50, 22, 22)
+    ]
+copy3 = [
     pygame.Rect(450, 300, 22, 22),
     pygame.Rect(200, 50, 22, 22)
     ]

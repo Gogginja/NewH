@@ -468,10 +468,19 @@ class main:
                         canMove = True
                     # Level 1
                     elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
-                        currentScreen = 'mainMenu' 
+                        currentScreen = 'mainMenu'
+                        player.player_life = 3
+                        coin.score = 0
+                        if previousScreen == 'level_1':
+                            coin.coin1 = coin.copy1
+                        elif previousScreen == 'level_2':
+                            coin.coin2 = coin.copy2
+                        elif previousScreen == 'level_3':
+                            coin.coin3 = coin.copy3
 
             # BUTTON CREATION #
-            createButton('RESPAWN', respawnPos[0], respawnPos[1]) 
+            if player.player_life > 0:
+                createButton('RESPAWN', respawnPos[0], respawnPos[1]) 
             createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1])
 
 ############################# WIN MENU #################################
