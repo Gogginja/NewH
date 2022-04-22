@@ -1,6 +1,6 @@
 # StarDust
 Stardust is a simple 2D platfomer created using python and pygame for CIS 350
-![Main Menu](https://github.com/Gogginja/NewH/blob/master/docs/assets/main.PNG)
+![Main Menu](https://github.com/Gogginja/NewH/blob/master/docs/assets/main.PNG =100x100)
 
 
 This 2D platformer contains 3 levels that the character can move around in and collect stars
