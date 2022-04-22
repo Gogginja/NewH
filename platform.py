@@ -1,7 +1,7 @@
 from pickle import TRUE
 import pygame
 
-#test
+# Level 1 Data
 level1 = [
     pygame.Rect(0, 450, 50, 50),
     pygame.Rect(100, 450, 50, 50),
@@ -18,6 +18,7 @@ level1 = [
     pygame.Rect(300, 100, 25, 50)
 ]
 
+# Level 2 Data
 level2 = [
     pygame.Rect(0, 200, 100, 400),
     pygame.Rect(100, 200, 75, 25),
@@ -33,6 +34,7 @@ level2 = [
 ]
 locked2 = True
 
+# Level 3 Data
 level3 = [
     pygame.Rect(0, 250, 75, 25),
     pygame.Rect(100, 250, 100, 25),
@@ -58,17 +60,7 @@ level3 = [
 ]
 locked3 = True
 
-level4 = [
-            pygame.Rect(0, 250, 75, 25)
-         ]
-
-slopes = [
-            #pygame.polygon((200,200),(200,250),(300,200),(300,150))
-         ]
-
-
+# Generate the platforms in each list
 def makePlatform(screen,arr, color):
-    #Test for an upward incline using polygons
-    #pygame.draw.polygon(screen,color,slopes)
     for p in arr:
         pygame.draw.rect(screen,color,p)

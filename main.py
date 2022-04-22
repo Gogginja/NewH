@@ -33,17 +33,12 @@ class main:
     sky2 = pygame.image.load('Image/textures/skybox2.png')
     sky3 = pygame.image.load('Image/textures/skybox3.png')
 
-    scroll_left = False
-    scroll_right = False
-    scroll = 0
-    scroll_speed = 1
-
     #Draw a more detailed background
-    def draw_bg(sky, scroll, speed):
+    def draw_bg(sky):
         width = sky.get_width()
         #Loops the background image everytime we scroll a certain distance
         for x in range(4):
-            screen.blit(sky, ((x * width) - (scroll * speed),0))
+            screen.blit(sky, ((x * width),0))
 
     # BUTTON CREATION FUNCTION #
     def createButton(text, x, y):
@@ -56,12 +51,14 @@ class main:
             pygame.draw.rect(screen,(100,100,100),[x,y,140,40])
         #add text (centered on the button)
         screen.blit(buttonText, (x+70-buttonText.get_width()/2, y+buttonText.get_height()/2))
-    
+
+    # Create Text anywhere on the screen
     def createText(text, x, y):
         smallfont = pygame.font.SysFont('Corbel',50)
         txt = smallfont.render(text, True, WHITE)
         screen.blit(txt, (x-txt.get_width()/2, y-txt.get_height()))
 
+    # Create Text with a frame anywhere on the screen 
     def drawtext(t, x, y):
         font = pygame.font.Font(pygame.font.get_default_font(), 24)
         text = font.render(t, True, GREEN, DARK_GREY)
@@ -71,7 +68,7 @@ class main:
 
     # PAUSE MENU #
     def pause():
-            global currentScreen,paused,mouse, run
+            global currentScreen,paused,run
             window = pygame.Surface(SCREEN_SIZE)
             window.set_colorkey(DARK_GREY)
             window.set_alpha(200)
@@ -109,26 +106,19 @@ class main:
 
 # MAIN GAME LOOP #
     while run:
+        # Initialize pygame
         pygame.init()
+        # Get mouse position
         mouse = pygame.mouse.get_pos()
+        # Get the keys pressed
+        keys = pygame.key.get_pressed()
+        # Font to use for buttons/text
         font = pygame.font.Font(pygame.font.get_default_font(), 24)
         
+        # Generate background
         screen.fill(MENU_COLOR)
         # set FPS
         clock.tick(60)
-       
-        if player.player_x > width:
-            scroll_right = True
-        elif player.player_x < 0:
-            scroll_left = True
-        else:
-            scroll_left = False
-            scroll_right = False
-        
-        if scroll_left == True and scroll > 0:
-            scroll -= 5
-        if scroll_right == True:
-            scroll += 5
 
 ############################ MAIN MENU ################################
 
@@ -151,6 +141,8 @@ class main:
                     # Quit
                     elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40): 
                         pygame.quit()
+
+            # Create Title on main menu
             smallfont = pygame.font.SysFont('Corbel',100)
             txt = smallfont.render('Star Dust', True, WHITE)
             screen.blit(txt, (475-txt.get_width()/2, 250-txt.get_height()))
@@ -262,29 +254,39 @@ class main:
                     # Level 1
                     elif (level1Pos[0] <= mouse[0] <= level1Pos[0]+140) and (level1Pos[1] <= mouse[1] <= level1Pos[1]+40):
                         player.canMove = True
+                        # Change to level 1
                         currentScreen = 'level_1'
+                        # Reset player position and speed
                         player.player_x = 0
                         player.player_y = 0
                         player.player_speed = 0
                     # Level 2
                     elif (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
+                        # If level is locked:
                         if not platform.locked2:
                             player.canMove = True
+                            # Change to level 2
                             currentScreen = 'level_2'
+                            # Reset player position and speed
                             player.player_x = 0
                             player.player_y = 0
                             player.player_speed = 0
                         else:
+                            # DISPLAY LOCKED TEXT
                             createText('LOCKED', 350, 115)
                     # Level 3
                     elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
+                        # If level is locked:
                         if not platform.locked3:
                             player.canMove = True
+                            # Change to level 3
                             currentScreen = 'level_3'
+                            # Reset player position and speed
                             player.player_x = 0
                             player.player_y = 0
                             player.player_speed = 0
                         else:
+                            # DISPLAY LOCKED TEXT
                             createText('LOCKED', 350, 115)
 
             # HOVER FUNCTIONALITY #
@@ -306,38 +308,51 @@ class main:
 ############################# LEVEL 1 #################################
 
         if currentScreen == 'level_1':
-
-            #Draws a scrollable background
-            draw_bg(sky1, scroll, scroll_speed)
+            # Draws the background, score, and lives count
+            draw_bg(sky1)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
-            #screen.fill(DARK_GREY)
-            keys = pygame.key.get_pressed()
-
+            
+            # Generate starcoins 
             for c in coin.coin1:
                 screen.blit(coin.coin_image, (c[0], c[1]))
-
+            
+            # Generate End Goal
             pygame.draw.rect(screen, coin.RED, coin.goal1[0])
+
+            # Generate Player
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
+            # Keep track of starcoins collected
             coin.score += coin.collect(player.player_x,player.player_y,coin.coin1)
+
+            # If end goal is reached:
             if coin.end(player.player_x, player.player_y, coin.goal1):
+                # Unlock level 2
                 platform.locked2 = False
+                # View the Win Menu
                 currentScreen='winMenu'
+                # Reset the character
                 player.player_x=0
                 player.player_y=0
+            # Generate the platforms
             platform.makePlatform(screen,platform.level1,GREEN)
 
-            # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
+            # If game is paused
             if paused == False:
+                # Set the x coordinates of the player
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)[0]
+                # Calculate the fall data of the player
                 fall = player.movement(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground, platform.level1)[1]
+                # Set y coordinates, speed, and ground toggle of the player
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
+            # If not paused
             else:
+                # Make pause menu appear
                 pause()
                 # BUTTON CREATION #
                 resumePos = [width/2-70, height/2.5]
@@ -351,11 +366,12 @@ class main:
 ############################# LEVEL 2 #################################
 
         if currentScreen == 'level_2':
-            draw_bg(sky2, scroll, scroll_speed)
+            # Draws the background, score, and lives count
+            draw_bg(sky2)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
-            keys = pygame.key.get_pressed()
 
+            # Generate starcoins 
             for c in coin.coin2:
                 screen.blit(coin.coin_image, (c[0], c[1]))
             
@@ -394,11 +410,11 @@ class main:
 ############################# LEVEL 3 #################################
 
         if currentScreen == 'level_3':
-            draw_bg(sky3, scroll, scroll_speed)
+            draw_bg(sky3)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
-            keys = pygame.key.get_pressed()
-                    
+
+            # Generate starcoins      
             for c in coin.coin3:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
