@@ -1,72 +1,74 @@
 import pygame
 import player
 
-# ANIMATION LISTS
-run_anim = [
-    pygame.image.load('Sprites/run/adventurer-run-00.png'),
-    pygame.image.load('Sprites/run/adventurer-run-01.png'),
-    pygame.image.load('Sprites/run/adventurer-run-02.png'),
-    pygame.image.load('Sprites/run/adventurer-run-03.png'),
-    pygame.image.load('Sprites/run/adventurer-run-04.png'),
-    pygame.image.load('Sprites/run/adventurer-run-05.png')
-]
-idle_anim = [
-    pygame.image.load('Sprites/idle/adventurer-idle-00.png'),
-    pygame.image.load('Sprites/idle/adventurer-idle-01.png'),
-    pygame.image.load('Sprites/idle/adventurer-idle-02.png'),
-    pygame.image.load('Sprites/idle/adventurer-idle-03.png')
-]
-jump_anim = [
-    pygame.image.load('Sprites/jump/jump-00.png'),
-    pygame.image.load('Sprites/jump/jump-01.png'),
-    pygame.image.load('Sprites/jump/jump-02.png'),
-    pygame.image.load('Sprites/jump/jump-03.png')
-]
-cornerJump_anim = [
-    pygame.image.load('Sprites/jump/jump-00.png'),
-    pygame.image.load('Sprites/jump/jump-01.png'),
-    pygame.image.load('Sprites/jump/crnr-jump-00.png'),
-    pygame.image.load('Sprites/jump/crnr-jump-01.png'),
-    pygame.image.load('Sprites/jump/crnr-jump-02.png')
-]
-fall_anim = [
-    pygame.image.load('Sprites/fall/fall-00.png'),
-    pygame.image.load('Sprites/fall/fall-01.png')
-]
-crouch_anim = [
-    pygame.image.load('Sprites/crouch/crouch-00.png'),
-    pygame.image.load('Sprites/crouch/crouch-01.png'),
-    pygame.image.load('Sprites/crouch/crouch-02.png'),
-    pygame.image.load('Sprites/crouch/crouch-03.png')
-]
-death_anim = [
-    pygame.image.load('Sprites/die/die-00.png'),
-    pygame.image.load('Sprites/die/die-01.png'),
-    pygame.image.load('Sprites/die/die-02.png'),
-    pygame.image.load('Sprites/die/die-03.png'),
-    pygame.image.load('Sprites/die/die-04.png'),
-    pygame.image.load('Sprites/die/die-05.png'),
-    pygame.image.load('Sprites/die/die-06.png')
-]
-win_anim = [
-    pygame.image.load('Sprites/win/attack1-00.png'),
-    pygame.image.load('Sprites/win/attack1-01.png'),
-    pygame.image.load('Sprites/win/attack1-02.png'),
-    pygame.image.load('Sprites/win/attack1-03.png'),
-    pygame.image.load('Sprites/win/attack1-04.png'),
-    pygame.image.load('Sprites/win/attack2-00.png'),
-    pygame.image.load('Sprites/win/attack2-01.png'),
-    pygame.image.load('Sprites/win/attack2-02.png'),
-    pygame.image.load('Sprites/win/attack2-03.png'),
-    pygame.image.load('Sprites/win/attack2-04.png'),
-    pygame.image.load('Sprites/win/attack2-05.png'),
-    pygame.image.load('Sprites/win/attack3-00.png'),
-    pygame.image.load('Sprites/win/attack3-01.png'),
-    pygame.image.load('Sprites/win/attack3-02.png'),
-    pygame.image.load('Sprites/win/attack3-03.png'),
-    pygame.image.load('Sprites/win/attack3-04.png'),
-    pygame.image.load('Sprites/win/attack3-05.png')
-]
+class animationHandler:
+    global run_anim,idle_anim,jump_anim,cornerJump_anim,fall_anim,crouch_anim,death_anim,win_anim
+    # ANIMATION LISTS
+    run_anim = [
+        pygame.image.load('Sprites/run/adventurer-run-00.png'),
+        pygame.image.load('Sprites/run/adventurer-run-01.png'),
+        pygame.image.load('Sprites/run/adventurer-run-02.png'),
+        pygame.image.load('Sprites/run/adventurer-run-03.png'),
+        pygame.image.load('Sprites/run/adventurer-run-04.png'),
+        pygame.image.load('Sprites/run/adventurer-run-05.png')
+    ]
+    idle_anim = [
+        pygame.image.load('Sprites/idle/adventurer-idle-00.png'),
+        pygame.image.load('Sprites/idle/adventurer-idle-01.png'),
+        pygame.image.load('Sprites/idle/adventurer-idle-02.png'),
+        pygame.image.load('Sprites/idle/adventurer-idle-03.png')
+    ]
+    jump_anim = [
+        pygame.image.load('Sprites/jump/jump-00.png'),
+        pygame.image.load('Sprites/jump/jump-01.png'),
+        pygame.image.load('Sprites/jump/jump-02.png'),
+        pygame.image.load('Sprites/jump/jump-03.png')
+    ]
+    cornerJump_anim = [
+        pygame.image.load('Sprites/jump/jump-00.png'),
+        pygame.image.load('Sprites/jump/jump-01.png'),
+        pygame.image.load('Sprites/jump/crnr-jump-00.png'),
+        pygame.image.load('Sprites/jump/crnr-jump-01.png'),
+        pygame.image.load('Sprites/jump/crnr-jump-02.png')
+    ]
+    fall_anim = [
+        pygame.image.load('Sprites/fall/fall-00.png'),
+        pygame.image.load('Sprites/fall/fall-01.png')
+    ]
+    crouch_anim = [
+        pygame.image.load('Sprites/crouch/crouch-00.png'),
+        pygame.image.load('Sprites/crouch/crouch-01.png'),
+        pygame.image.load('Sprites/crouch/crouch-02.png'),
+        pygame.image.load('Sprites/crouch/crouch-03.png')
+    ]
+    death_anim = [
+        pygame.image.load('Sprites/die/die-00.png'),
+        pygame.image.load('Sprites/die/die-01.png'),
+        pygame.image.load('Sprites/die/die-02.png'),
+        pygame.image.load('Sprites/die/die-03.png'),
+        pygame.image.load('Sprites/die/die-04.png'),
+        pygame.image.load('Sprites/die/die-05.png'),
+        pygame.image.load('Sprites/die/die-06.png')
+    ]
+    win_anim = [
+        pygame.image.load('Sprites/win/attack1-00.png'),
+        pygame.image.load('Sprites/win/attack1-01.png'),
+        pygame.image.load('Sprites/win/attack1-02.png'),
+        pygame.image.load('Sprites/win/attack1-03.png'),
+        pygame.image.load('Sprites/win/attack1-04.png'),
+        pygame.image.load('Sprites/win/attack2-00.png'),
+        pygame.image.load('Sprites/win/attack2-01.png'),
+        pygame.image.load('Sprites/win/attack2-02.png'),
+        pygame.image.load('Sprites/win/attack2-03.png'),
+        pygame.image.load('Sprites/win/attack2-04.png'),
+        pygame.image.load('Sprites/win/attack2-05.png'),
+        pygame.image.load('Sprites/win/attack3-00.png'),
+        pygame.image.load('Sprites/win/attack3-01.png'),
+        pygame.image.load('Sprites/win/attack3-02.png'),
+        pygame.image.load('Sprites/win/attack3-03.png'),
+        pygame.image.load('Sprites/win/attack3-04.png'),
+        pygame.image.load('Sprites/win/attack3-05.png')
+    ]
 
 
 # Play specified animation list

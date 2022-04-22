@@ -19,7 +19,6 @@ class main:
     screen = pygame.display.set_mode(SCREEN_SIZE)
     width = screen.get_width()
     height = screen.get_height()
-    plr = player.current_image
 
     clock = pygame.time.Clock()
     devMenu = False
@@ -412,7 +411,7 @@ class main:
                 player.player_x = 0
                 player.player_y = 0
             # Generate the platformss
-            platforms.makeplatforms(screen, platforms.level1, GREEN)
+            platforms.makePlatform(screen, platforms.level1, GREEN)
 
             # If game is paused
             if not paused:
@@ -478,7 +477,7 @@ class main:
                 player.player_x = 0
                 player.player_y = 0
             # Generate the platformss
-            platforms.makeplatforms(screen, platforms.level2, GREEN)
+            platforms.makePlatforms(screen, platforms.level2, GREEN)
 
             # If game is paused:
             if not paused:

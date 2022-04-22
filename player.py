@@ -1,28 +1,30 @@
 import animationHandler
 import pygame
 
-# Animation Data
-current_index = 0
-# Current player image
-current_image = pygame.image.load('Sprites/idle/adventurer-idle-00.png')
-# State of the player
-state = 'idle'
+class player:
+    global current_index,current_image,state,direction,deb,frameNum,canMove,player_life,player_x,player_y,player_speed,player_width,player_height,ground
+    # Animation Data
+    current_index = 0
+    # Current player image
+    current_image = pygame.image.load('Sprites/idle/adventurer-idle-00.png')
+    # State of the player
+    state = 'idle'
 
-# Direction player is facing
-# True = right : False = left
-direction = True
-deb = 0
-frameNum = 0
+    # Direction player is facing
+    # True = right : False = left
+    direction = True
+    deb = 0
+    frameNum = 0
 
-# PLAYER DATA
-canMove = True
-player_life = 3
-player_x = 0
-player_y = 0
-player_speed = 0.0
-player_width = 19
-player_height = 30
-ground = False
+    # PLAYER DATA
+    canMove = True
+    player_life = 3
+    player_x = 0
+    player_y = 0
+    player_speed = 0.0
+    player_width = 19
+    player_height = 30
+    ground = False
 
 
 # Get number of lives player has
