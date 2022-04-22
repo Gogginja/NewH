@@ -33,21 +33,15 @@ class main:
     sky2 = pygame.image.load('Image/textures/skybox2.png')
     sky3 = pygame.image.load('Image/textures/skybox3.png')
 
-    scroll_left = False
-    scroll_right = False
-    scroll = 0
-    scroll_speed = 1
-
     def getPaused():
         return paused
 
     def getScreen():
         return currentScreen
 
-    #Draw a more detailed background
+    # Draw a background
     def draw_bg(sky):
         width = sky.get_width()
-        #Loops the background image everytime we scroll a certain distance
         for x in range(4):
             screen.blit(sky, ((x * width),0))
 
@@ -287,7 +281,7 @@ class main:
                             createText('LOCKED', 350, 115)
                     # Level 3
                     elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
-                        # If level is locked:
+                        # If level is not locked:
                         if not platform.locked3:
                             player.canMove = True
                             # Change to level 3
@@ -296,6 +290,7 @@ class main:
                             player.player_x = 0
                             player.player_y = 0
                             player.player_speed = 0
+                        # If locked
                         else:
                             # DISPLAY LOCKED TEXT
                             createText('LOCKED', 350, 115)
@@ -303,10 +298,12 @@ class main:
             # HOVER FUNCTIONALITY #
             # Level 1
             if (level2Pos[0] <= mouse[0] <= level2Pos[0]+140) and (level2Pos[1] <= mouse[1] <= level2Pos[1]+40):
+                # If level is locked
                 if platform.locked2:
                     createText('LOCKED', 350, 115)
             # Level 3
             elif (level3Pos[0] <= mouse[0] <= level3Pos[0]+140) and (level3Pos[1] <= mouse[1] <= level3Pos[1]+40):
+                # If level is locked
                 if platform.locked3:
                     createText('LOCKED', 350, 115)
             
@@ -343,7 +340,7 @@ class main:
                 platform.locked2 = False
                 # View the Win Menu
                 currentScreen='winMenu'
-                # Reset the character
+                # Reset the player
                 player.player_x=0
                 player.player_y=0
             # Generate the platforms
@@ -372,7 +369,6 @@ class main:
                 createButton('RESUME', resumePos[0], resumePos[1]) 
                 createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
                 createButton('QUIT', quitPost[0], quitPost[1])
-            pygame.display.flip()
         
 ############################# LEVEL 2 #################################
 
@@ -386,28 +382,41 @@ class main:
             for c in coin.coin2:
                 screen.blit(coin.coin_image, (c[0], c[1]))
             
+            # Generate end goal
             pygame.draw.rect(screen, coin.RED, coin.goal2[0])
+
+            # Generate player
             screen.blit(player.current_image, (player.player_x, player.player_y))
             
+            # Keep track of starcoins collected
             coin.score += coin.collect(player.player_x,player.player_y,coin.coin2)
-            # End Goal
+            # If end goal is reached:
             if coin.end(player.player_x, player.player_y, coin.goal2):
-                currentScreen='winMenu'
+                # Unlocked level 3
                 platform.locked3 = False
+                # View the Win Menu
+                currentScreen='winMenu'
+                # Reset the player
                 player.player_x=0
                 player.player_y=0
+            # Generate the platforms
             platform.makePlatform(screen,platform.level2,GREEN)
 
-            # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
+            # If game is paused:
             if paused == False:
+                # Set the x coordinates of the player
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)[0]
+                # Calculate the fall data of the player
                 fall = player.movement(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground, platform.level2)[1]
+                # Set y coordinates, speed, and ground toggle of the player
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
+            # If not paused:
             else:
+                # Make pause menu appear
                 pause()
                 # BUTTON CREATION #
                 resumePos = [width/2-70, height/2.5]
@@ -416,11 +425,11 @@ class main:
                 createButton('RESUME', resumePos[0], resumePos[1]) 
                 createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
                 createButton('QUIT', quitPost[0], quitPost[1])
-            pygame.display.flip()
 
 ############################# LEVEL 3 #################################
 
         if currentScreen == 'level_3':
+            # Draws the background, score, and lives count
             draw_bg(sky3)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
@@ -429,27 +438,38 @@ class main:
             for c in coin.coin3:
                 screen.blit(coin.coin_image, (c[0], c[1]))
 
+            # Generate the end goal
             pygame.draw.rect(screen, coin.RED, coin.goal3[0])
+            # Generate the player
             screen.blit(player.current_image, (player.player_x, player.player_y))
 
+            # Keep track of starcoins collected
             coin.score += coin.collect(player.player_x,player.player_y,coin.coin3)
-            # End Goal
+            # If end goal is reached:
             if coin.end(player.player_x, player.player_y, coin.goal3):
+                # View the Win Menu
                 currentScreen='winMenu'
+                # Reset the player
                 player.player_x=0
                 player.player_y=0
+            # Generate the platforms
             platform.makePlatform(screen,platform.level3,GREEN)
 
-            # RUN PLAYER MOVEMENTS ONLY WHEN UNPAUSED
+            # If game is not paused:
             if paused == False:
+                # Set the x coordinates of the player
                 player.player_x = player.movement(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)[0]
+                # Calculate the fall data of the player
                 fall = player.movement(keys, player.player_x, player.player_y, 
                                         player.player_width, player.player_height, player.player_speed, player.ground, platform.level3)[1]
+                # Set y coordinates, speed, and ground toggle of the player
                 player.player_y = fall[0]
                 player.player_speed = fall[1]
                 player.ground = fall[2]
+            # If paused:
             else:
+                # View the pause menu
                 pause()
                 # BUTTON CREATION #
                 resumePos = [width/2-70, height/2.5]
@@ -458,25 +478,35 @@ class main:
                 createButton('RESUME', resumePos[0], resumePos[1]) 
                 createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
                 createButton('QUIT', quitPost[0], quitPost[1])
-            pygame.display.flip()
 
 ############################# DEATH MENU #################################
 
         if currentScreen == 'deathScreen':
-            player.player_x = 0
-            player.player_y = 0
-            player.player_speed = 0
+            # Button positions
             respawnPos = [width/2-70, height/2]
             mainMenuPos = [width/2-70, height/1.65]
+            # Background of menu
             window = pygame.Surface((700, 500))
             window.set_colorkey((10,10,10))
             smallfont = pygame.font.SysFont('Corbel',50)
-            diedText = smallfont.render('YOU DIED', True, (255,255,255))
+            # If player has more than 3 lives:
+            if player.player_life > 0:
+                # Display 'YOU DIED'
+                diedText = smallfont.render('YOU DIED', True, (255,255,255))
+            # If player has no lives left:
+            else:
+                # Display 'GAME OVER'
+                diedText = smallfont.render('GAME OVER', True, (255,255,255))
             
+            # Generate background
             screen.blit(window, (0, 0))
+            # Generate text
             screen.blit(diedText, (350-diedText.get_width()/2, 175-diedText.get_height()))
+            # Reset animation
             player.frameNum = 0
+            # Start death animation
             animationHandler.animate()
+            # Display the player
             screen.blit(player.current_image, (340, 200))
 
             # EVENT HANDLER #
@@ -485,21 +515,33 @@ class main:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
                     # Back
                     if (respawnPos[0] <= mouse[0] <= respawnPos[0]+140) and (respawnPos[1] <= mouse[1] <= respawnPos[1]+40):
+                        # Show the previous screen
                         currentScreen = previousScreen
+                        # Player allowed to move
                         canMove = True
                     # Level 1
                     elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
+                        # Go to main menu
                         currentScreen = 'mainMenu'
+                        # Reset the life count
                         player.player_life = 3
+                        # Reset the score
                         coin.score = 0
+                        # If was playing level 1:
                         if previousScreen == 'level_1':
+                            # Reset coins
                             coin.coin1 = coin.copy1
+                        # If was playing level 2:
                         elif previousScreen == 'level_2':
+                            # Reset coins
                             coin.coin2 = coin.copy2
+                        # If was playing level 3:
                         elif previousScreen == 'level_3':
+                            # Reset coins
                             coin.coin3 = coin.copy3
 
             # BUTTON CREATION #
+            # If player has lives:
             if player.player_life > 0:
                 createButton('RESPAWN', respawnPos[0], respawnPos[1]) 
             createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1])
@@ -507,18 +549,25 @@ class main:
 ############################# WIN MENU #################################
 
         if currentScreen == 'winMenu':
+            # Button positions
             mainMenuPos = [width/2-70, height/2]
             quitPos = [width/2-70, height/1.65]
+            # Background of menu
             window = pygame.Surface((700, 500))
             window.set_colorkey((10,10,10))
             smallfont = pygame.font.SysFont('Corbel',50)
             winText = smallfont.render('YOU WON!', True, (255,255,255))
-            
+            # Generate the background
             screen.blit(window, (0, 0))
+            # Generate the text
             screen.blit(winText, (350-winText.get_width()/2, 175-winText.get_height()))
+            # Change player state to won
             player.state = 'won'
+            # Reset player animation
             player.frameNum = 0
+            # Animate the player
             animationHandler.animate()
+            # Display the player
             screen.blit(player.current_image, (340, 200))
 
             # EVENT HANDLER #
@@ -527,42 +576,65 @@ class main:
                 if ev.type == pygame.MOUSEBUTTONDOWN: 
                     # Back
                     if (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
+                        # Go to the main menu
                         currentScreen = 'mainMenu'
+                        # ALlow the player to move
                         canMove = True
                     # Level 1
                     elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40):
-                        run = False
+                        # Quit the program
+                        pygame.quit()
 
             # BUTTON CREATION #
             createButton('MAIN MENU', mainMenuPos[0], mainMenuPos[1]) 
             createButton('QUIT', quitPos[0], quitPos[1])
 
-############################# DEV MENU #################################
+############################# DEV MENU - (FOR DEBUGGING ) #################################
 
         if devMenu:
+            # View real-time state of player
             drawtext('State: '+ str(player.state)+' ', 200, 10)
 
-        #Check if player falls off map and loses life
+        # If player falls off map:
         if player.player_y>500:
+            # Can not move
             canMove = False
+            # Reset animation
             player.frameNum = 0
+            # Lose a life
             player.player_life -= 1
+            # Reset the player
             player.player_x = 0
             player.player_y = 0
+            player.player_speed = 0
+            # Set state to died
             player.state = 'died'
+            # Save previous screen
             previousScreen = currentScreen
+            # View death menu
             currentScreen = 'deathScreen'
 
+        # Check pygame events
         for ev in pygame.event.get():
+            # If [X] on window is pressed:
             if ev.type == pygame.QUIT:
-                run = False
+                pygame.quit()
+            # If [key] is pressed:
             if ev.type == pygame.KEYDOWN:
-                    if ev.key == pygame.K_TAB:
-                        paused = not paused
-                    elif ev.key == pygame.K_F9:
-                        devMenu = not devMenu
+                # If [Tab] is pressed:
+                if ev.key == pygame.K_TAB:
+                    # Toggle pausing
+                    paused = not paused
+                # If [F9] is pressed:
+                elif ev.key == pygame.K_F9:
+                    # Toggle developer info
+                    devMenu = not devMenu
 
         # CRITICAL (DO NOT DELETE). Refreshes/Updates the screen frame by frame.
+        # Set window name
         pygame.display.set_caption('Star Dust')
+        pygame.display.flip()
+        # Update frame
         pygame.display.update()
+    # Quit the program
     pygame.quit()
