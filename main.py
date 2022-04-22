@@ -488,7 +488,7 @@ class main:
                         currentScreen = 'mainMenu'
                         canMove = True
                     # Level 1
-                    elif (mainMenuPos[0] <= mouse[0] <= mainMenuPos[0]+140) and (mainMenuPos[1] <= mouse[1] <= mainMenuPos[1]+40):
+                    elif (quitPos[0] <= mouse[0] <= quitPos[0]+140) and (quitPos[1] <= mouse[1] <= quitPos[1]+40):
                         run = False
 
             # BUTTON CREATION #
@@ -504,6 +504,7 @@ class main:
         if player.player_y>500:
             canMove = False
             player.frameNum = 0
+            
             player.player_life -= 1
             player.player_x = 0
             player.player_y = 0
