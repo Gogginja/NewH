@@ -28,7 +28,10 @@ class main:
     run =           True
     deb = 0
 
-    skyTest = pygame.image.load('Image/textures/skybox.png')
+    #Skyboxes
+    sky1 = pygame.image.load('Image/textures/skybox.png')
+    sky2 = pygame.image.load('Image/textures/skybox2.png')
+    sky3 = pygame.image.load('Image/textures/skybox3.png')
 
     scroll_left = False
     scroll_right = False
@@ -302,7 +305,7 @@ class main:
         if currentScreen == 'level_1':
 
             #Draws a scrollable background
-            draw_bg(skyTest, scroll, scroll_speed)
+            draw_bg(sky1, scroll, scroll_speed)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             #screen.fill(DARK_GREY)
@@ -345,7 +348,7 @@ class main:
 ############################# LEVEL 2 #################################
 
         if currentScreen == 'level_2':
-            screen.fill(DARK_GREY)
+            draw_bg(sky2, scroll, scroll_speed)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             keys = pygame.key.get_pressed()
@@ -388,7 +391,7 @@ class main:
 ############################# LEVEL 3 #################################
 
         if currentScreen == 'level_3':
-            screen.fill(DARK_GREY)
+            draw_bg(sky3, scroll, scroll_speed)
             drawtext('Score: '+ str(coin.score)+' ', 0, 10)
             drawtext('Lives: '+ str(player.player_life)+' ', 100, 10)
             keys = pygame.key.get_pressed()
