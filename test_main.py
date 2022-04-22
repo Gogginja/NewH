@@ -5,6 +5,8 @@ import platform
 import player
 
 class TestMain(unittest.TestCase):
+    #Tests pass depending on which screen you exit on
+    
     #Tests to see if the game is paused
     def test_pause(self):
         self.assertEquals(main.paused, True)
