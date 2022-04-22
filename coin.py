@@ -47,12 +47,14 @@ goal3 = [
 # Score/Number of coins collected
 score = 0
 
+
 # Collect coin
 def collect(x, y, coin):
     player_x = x
     player_y = y
-    player_rect = pygame.Rect(player_x, player_y,
-                            player.player_width, player.player_height)
+    player_rect = pygame.Rect(player_x, player_y, player.player_width,
+                              player.player_height)
+
     # If coin list is not empty:
     if coin != []:
         # For every coin in the list
@@ -67,6 +69,7 @@ def collect(x, y, coin):
     # If coin list is empty
     else:
         return 0
+
 
 # Touch the end goal
 def end(x, y, goal):

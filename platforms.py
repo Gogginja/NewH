@@ -59,7 +59,8 @@ level3 = [
 ]
 locked3 = True
 
+
 # Generate the platforms in each list
-def makePlatform(screen,arr, color):
+def makePlatform(screen, arr, color):
     for p in arr:
-        pygame.draw.rect(screen,color,p)
+        pygame.draw.rect(screen, color, p)
