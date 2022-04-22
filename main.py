@@ -27,6 +27,7 @@ class main:
     run =           True
     deb = 0
 
+    #Skyboxes
     sky1 = pygame.image.load('Image/textures/skybox.png')
     sky2 = pygame.image.load('Image/textures/skybox2.png')
     sky3 = pygame.image.load('Image/textures/skybox3.png')
