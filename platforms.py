@@ -1,7 +1,8 @@
 import pygame
 
+
 class platforms:
-    global level1,level2,locked2,level3,locked3
+    global level1, level2, locked2, level3, locked3
     # Level 1 Data
     level1 = [
         pygame.Rect(0, 450, 50, 50),

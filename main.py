@@ -477,7 +477,7 @@ class main:
                 player.player_x = 0
                 player.player_y = 0
             # Generate the platformss
-            platforms.makePlatforms(screen, platforms.level2, GREEN)
+            platforms.makePlatform(screen, platforms.level2, GREEN)
 
             # If game is paused:
             if not paused:
@@ -540,7 +540,7 @@ class main:
                 player.player_x = 0
                 player.player_y = 0
             # Generate the platformss
-            platforms.makeplatforms(screen, platforms.level3, GREEN)
+            platforms.makePlatform(screen, platforms.level3, GREEN)
 
             # If game is not paused:
             if not paused:
@@ -629,18 +629,10 @@ class main:
                         player.player_life = 3
                         # Reset the score
                         coin.score = 0
-                        # If was playing level 1:
-                        if previousScreen == 'level_1':
-                            # Reset coins
-                            coin.coin1 = coin.copy1
-                        # If was playing level 2:
-                        elif previousScreen == 'level_2':
-                            # Reset coins
-                            coin.coin2 = coin.copy2
-                        # If was playing level 3:
-                        elif previousScreen == 'level_3':
-                            # Reset coins
-                            coin.coin3 = coin.copy3
+                        # Reset coins
+                        coin.coin1 = coin.copy1
+                        coin.coin2 = coin.copy2
+                        coin.coin3 = coin.copy3
 
             # BUTTON CREATION #
             # If player has lives:

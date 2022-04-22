@@ -1,8 +1,10 @@
 import pygame
 import player
 
+
 class animationHandler:
-    global run_anim,idle_anim,jump_anim,cornerJump_anim,fall_anim,crouch_anim,death_anim,win_anim
+    global run_anim, idle_anim, jump_anim, cornerJump_anim
+    global fall_anim, crouch_anim, death_anim, win_anim
     # ANIMATION LISTS
     run_anim = [
         pygame.image.load('Sprites/run/adventurer-run-00.png'),

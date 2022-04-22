@@ -1,8 +1,11 @@
 import animationHandler
 import pygame
 
+
 class player:
-    global current_index,current_image,state,direction,deb,frameNum,canMove,player_life,player_x,player_y,player_speed,player_width,player_height,ground
+    global current_index, current_image, state, direction, deb
+    global frameNum, canMove, player_life, player_x, player_y, player_speed
+    global player_width, player_height, ground
     # Animation Data
     current_index = 0
     # Current player image

@@ -1,8 +1,10 @@
 import pygame
 import player
 
-class coin:
-    global coin_image,coin1,coin2,coin3,copy1,copy2,copy3,RED,goal1,goal2,goal3,score
+
+class coin():
+    global coin_image, coin1, coin2, coin3, copy1, copy2
+    global copy3, RED, goal1, goal2, goal3, score
     # COIN DATA FOR EACH LEVEL
     coin_image = pygame.image.load('Image/textures/star.png')
     coin1 = [
@@ -49,12 +51,13 @@ class coin:
     # Score/Number of coins collected
     score = 0
 
+
 # Collect coin
 def collect(x, y, coin):
     player_x = x
     player_y = y
     player_rect = pygame.Rect(player_x, player_y, player.player_width,
-                            player.player_height)
+                              player.player_height)
 
     # If coin list is not empty:
     if coin != []:
@@ -77,7 +80,7 @@ def end(x, y, goal):
     player_x = x
     player_y = y
     player_rect = pygame.Rect(player_x, player_y,
-                            player.player_width, player.player_height)
+                              player.player_width, player.player_height)
     # For every goal in list:
     for g in goal:
         # If player collides with it:
