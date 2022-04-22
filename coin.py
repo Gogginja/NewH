@@ -11,8 +11,8 @@ coin2 = [
     pygame.Rect(200, 350, 22, 22)
     ]
 coin3 = [
-    pygame.Rect(600, 150, 22, 22),
-    pygame.Rect(200, 250, 22, 22)
+    pygame.Rect(450, 300, 22, 22),
+    pygame.Rect(200, 50, 22, 22)
     ]
 RED = (237, 12, 12)
 goal1 = [
