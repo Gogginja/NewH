@@ -33,9 +33,11 @@ class main:
     sky2 = pygame.image.load('Image/textures/skybox2.png')
     sky3 = pygame.image.load('Image/textures/skybox3.png')
 
+    # Get current pause state
     def getPaused():
         return paused
 
+    # Get current screen
     def getScreen():
         return currentScreen
 

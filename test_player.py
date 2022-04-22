@@ -1,13 +1,15 @@
 import unittest
 import player
 
-
 class TestPlayer(unittest.TestCase):
-    #test if player can lose
-    def test_lose(self):
-        self.assertEquals(player.getState(), 'lose')
-    #test if player can win
-    def test_win(self):
-        self.assertEquals(player.getState(), 'win')
-        
+    #test if player can stay idle
+    def test_idle(self):
+        self.assertEquals(player.getState(), 'idle')
+    #test if player can run
+    def test_run(self):
+        self.assertEquals(player.getState(), 'run')
+
+if __name__ == '__main__':
+    unittest.main()
+
     
