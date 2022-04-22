@@ -14,3 +14,4 @@ The game also contains a win and lose conditions that will display screens accor
 conditions are met.
 ![win](https://github.com/Gogginja/NewH/blob/master/docs/assets/win.PNG)
 ![death](https://github.com/Gogginja/NewH/blob/master/docs/assets/death.PNG)
+
