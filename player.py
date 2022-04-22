@@ -24,20 +24,25 @@ player_width = 19
 player_height = 30
 ground = False
 
+
 # Get number of lives player has
 def getLife():
     return player_life
+
 
 # Get the current state of the player
 def getState():
     return state
 
+
 # Player state/movement logic
 def movement(keys, x, y, w, h, speed, ground, level):
     animationHandler.animate()
-    global state,direction,player_speed,current_image,player_height,player_y,canMove
+    global state, direction, player_speed, current_image
+    global player_height, player_y, canMove
 
-    if not (keys[pygame.K_a] or keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_w]):
+    if not (keys[pygame.K_a] or keys[pygame.K_s] or
+            keys[pygame.K_d] or keys[pygame.K_w]):
         state = 'idle'
         canMove = True
 
@@ -49,8 +54,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
         player_speed += player_acceleration
         new_player_y += player_speed
         fall = [new_player_y, player_speed, ground]
-        new_player_rect = pygame.Rect(x, new_player_y,
-                                        w, h)
+        new_player_rect = pygame.Rect(x, new_player_y, w, h)
         y_collision = False
         player_height = current_image.get_height()
 
@@ -65,7 +69,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
             direction = True
             new_player_x += 3
         # W = Jump
-        if keys[pygame.K_w] and ground == True:
+        if keys[pygame.K_w] and ground is True:
             state = 'jumping'
             player_speed = -7
             ground = False
@@ -77,7 +81,7 @@ def movement(keys, x, y, w, h, speed, ground, level):
         elif keys[pygame.K_w] and keys[pygame.K_d]:
             state = 'jumping-right'
             direction = True
-        elif keys[pygame.K_s] and ground == True:
+        elif keys[pygame.K_s] and ground is True:
             state = 'crouching'
             player_y += 7
             player_speed = 0
@@ -89,11 +93,9 @@ def movement(keys, x, y, w, h, speed, ground, level):
 
         # COLLISION HANDLER
         new_player_rect = pygame.Rect(new_player_x, y, w, h)
-        x_collision = False
         # ..check against every playform
         for p in level:
             if p.colliderect(new_player_rect):
-                x_collision = True
                 new_player_x = x
                 break
 
@@ -109,9 +111,8 @@ def movement(keys, x, y, w, h, speed, ground, level):
                     fall = [new_player_y, player_speed, ground]
                     break
             if y_collision is False:
-                fall = [new_player_y,player_speed,ground]
+                fall = [new_player_y, player_speed, ground]
 
         return [new_player_x, fall]
     else:
-        return [player_x, [player_y,player_speed,ground]]
-    
+        return [player_x, [player_y, player_speed, ground]]

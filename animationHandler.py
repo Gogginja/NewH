@@ -68,6 +68,7 @@ win_anim = [
     pygame.image.load('Sprites/win/attack3-05.png')
 ]
 
+
 # Play specified animation list
 def playAnim(animList):
     # If current position in list is less than the size of the list:
@@ -86,6 +87,7 @@ def playAnim(animList):
         # Play flipped animation
         imgCopy = animList[player.current_index].copy()
         player.current_image = pygame.transform.flip(imgCopy, True, False)
+
 
 # Logic for animating the character based on player states.
 def animate():
@@ -146,7 +148,8 @@ def animate():
     # If player is crouching:
     elif player.state == 'crouching':
         player.frameNum += 1
-        # If frameNum is less than the number of elements in the list (PLAY ANIMATION ONCE)
+        # If frameNum is less than the number of elements in the
+        # list (PLAY ANIMATION ONCE)
         if player.frameNum < len(crouch_anim)*25:
             player.deb += 1
             if player.deb == 25:
@@ -157,7 +160,8 @@ def animate():
     # If player is dead:
     elif player.state == 'died':
         player.frameNum += 1
-        # If frameNum is less than the number of elements in the list (PLAY ANIMATION ONCE)
+        # If frameNum is less than the number of elements in the
+        # list (PLAY ANIMATION ONCE)
         if player.frameNum < len(death_anim)*25:
             player.deb += 1
             # Every 25 frames, update the animation to the next frame
@@ -169,7 +173,8 @@ def animate():
     # If player won:
     elif player.state == 'won':
         player.frameNum += 1
-        # If frameNum is less than the number of elements in the list (PLAY ANIMATION ONCE)
+        # If frameNum is less than the number of elements
+        # in the list (PLAY ANIMATION ONCE)
         if player.frameNum < len(win_anim)*5:
             player.deb += 1
             # Every 5 frames, update the animation to the next frame
