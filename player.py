@@ -25,6 +25,12 @@ def getLife():
 def getState():
     return state
 
+def getPlayerX():
+    return player_x
+
+def getPlayerY():
+    return player_y
+
 # player input
 def movement(keys, x, y, w, h, speed, ground, level):
     animationHandler.animate()
